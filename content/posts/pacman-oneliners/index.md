@@ -3,6 +3,7 @@ title: "pacman(+fzf)ワンライナーで快適パッケージ管理"
 date: 2021-08-07
 categories: ["introduction"]
 tags: []
+---
 
 この記事では、Arch Linuxのパッケージマネージャー `pacman` について、ワンライナーや通常よりも一歩進んだ便利な使い方を紹介していきます。`pacman` の基本的な使い方は解説していません。以下の記事が参考になります。
 
@@ -109,3 +110,4 @@ pacman -Qq [キーワード...] | fzf --multi --preview 'LANG=C pacman -Qi {}' |
 - [Arch Wiki - Pacmanヒント](https://wiki.archlinux.jp/index.php/Pacman_%E3%83%92%E3%83%B3%E3%83%88)
 
 - [Arch Wiki -Fzf](https://wiki.archlinux.jp/index.php/Fzf#Arch_.E3.81.A7_fzf_.E3.82.92.E4.BD.BF.E7.94.A8.E3.81.99.E3.82.8B)
+
