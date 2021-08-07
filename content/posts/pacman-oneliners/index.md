@@ -2,7 +2,7 @@
 title: "pacman(+fzf)ワンライナーで快適パッケージ管理"
 date: 2021-08-07
 categories: ["pacman", "fzf", "oneliner"]
-tags: []
+tags: ["pacman", "fzf", "oneliner"]
 ---
 
 この記事では、Arch Linuxのパッケージマネージャー `pacman` について、ワンライナーや通常よりも一歩進んだ便利な使い方を紹介していきます。`pacman` の基本的な使い方は解説していません。以下の記事が参考になります。
