@@ -1,5 +1,5 @@
 # 公開するページのURL
-baseURL = "https://kato-k.github.io/hugo-blog-template"
+baseURL = "https://sheepla.github.io/sheepla-note"
 
 languageCode = "ja"
 DefaultContentLanguage = "ja"
@@ -7,15 +7,15 @@ HasCJKLanguage = true
 enableRobotsTXT = true
 
 # ブログのタイトル
-title = "hugo-blog-template"
+title = "sheepla-note"
 
 theme = "mainroad"
 paginate = 20
 
 # 自己紹介
 [Author]
-    name = "Author"
-    bio = "ここに自己紹介を入れることができます"
+    name = "sheepla"
+    bio = "Linux, Vim, PowerShell等を気ままに触っているただのひつじ。シンプルなソフトウェアが好きです。"
     avatar = "img/avatar.png"
 
 [Params]
@@ -28,12 +28,12 @@ paginate = 20
 
 # ページのテーマカラー
 [Params.style.vars]
-  highlightColor = "#e22d30"
+  highlightColor = "#444b71"
 
 # SNS等のユーザー名
 [Params.widgets.social]
-  twitter = "uvrub"
-  github = "kato-k"
+  twitter = "sheeeeepla"
+  github = "sheepla"
 
 [Params.sidebar]
     home = "right"
