@@ -1,7 +1,7 @@
 ---
 title: "pacman(+fzf)ワンライナーで快適パッケージ管理"
 date: 2021-08-07
-categories: ["introduction"]
+categories: ["pacman", "fzf", "oneliner"]
 tags: []
 ---
 
