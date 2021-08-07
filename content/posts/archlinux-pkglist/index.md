@@ -3,10 +3,7 @@ title: "Arch Linuxのパッケージをパッケージリストで管理する"
 date: 2021-08-07
 categories: ["archlinux"]
 tags: ["archlinux", "pacman", "dotfiles"]
-menu: main
 ---
-
-# Arch Linuxのパッケージをパッケージリストで管理する
 
 この記事では、Arch Linuxのインストール済みパッケージリストを作成して管理・一括インストールする方法を紹介します。ここでは、AURヘルパーとして `yay` を使用している前提で書いています。 `paru` 等、他のAURヘルパーを使用している場合は適宜読み替えてください。
 
