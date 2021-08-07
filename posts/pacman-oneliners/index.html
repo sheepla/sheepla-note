@@ -131,7 +131,10 @@ pacman -Qq <span style=color:#f92672>[</span>キーワード...<span style=color
 <p><code> sudo pacman -S パッケージ名</code> : パッケージをインストールします。 引数にパッケージ名ではなく<code>-</code> を与えると、標準入力から受け取ったテキストをパッケージ名と解釈してそのパッケージをインストールします。</p>
 </li>
 <li>
-<p><code>sudo pacman -R パッケージ名</code>: パッケージをアンインストールします。<code>-S</code> 同様、引数に <code>-</code> を与えると、標準入力から受け取ったテキストをパッケージ名と解釈してそのパッケージをアンインストールします。任意のパッケージを再帰的に削除するには <code>sudo pacman -Rns</code> を使います。</p>
+<p><code>sudo pacman -Rn パッケージ名</code>: パッケージをアンインストールします。<code>-S</code> と同様、引数に <code>-</code> を与えると、標準入力から受け取ったテキストをパッケージ名と解釈してそのパッケージをアンインストールします。</p>
+<ul>
+<li>任意のパッケージを再帰的に削除するには <code>sudo pacman -Rns</code> を使います。</li>
+</ul>
 </li>
 <li>
 <p><code>fzf --multi</code>: fzfが起動した状態で <code>Tab</code> キーを押下することで、複数の項目を選択することができます。</p>
