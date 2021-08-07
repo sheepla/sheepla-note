@@ -6,12 +6,13 @@ languageCode = "ja"
 DefaultContentLanguage = "ja"
 HasCJKLanguage = true
 enableRobotsTXT = true
+paginate = 20
 
 # ブログのタイトル
 title = "sheepla-note"
 
+# テーマ
 theme = "mainroad"
-paginate = 20
 
 # 自己紹介
 [Author]
@@ -20,25 +21,32 @@ paginate = 20
     avatar = "img/avatar.png"
 
 [Params]
-    customCSS = ["css/custom.css"]
-    copyright = "Author"
-    readmore = true
+    subtitle = "ひつじのノート"
+    description = "自分用の備忘録を兼ねて書いています。"
     authorbox = true
+    copyright = "Sheepla"
+    customCSS = ["css/custom.css"]
     post_meta = ["date", "categories"]
+    readmore = true
     twitter_cards = true
 
 # ページのテーマカラー
 [Params.style.vars]
   highlightColor = "#444b71"
 
-# SNS等のユーザー名
-[Params.widgets.social]
-  twitter = "sheeeeepla"
-  github = "sheepla"
-
+# サイドバー
 [Params.sidebar]
     home = "right"
     list = "right"
     single = "right"
     widgets = ["search", "recent", "categories", "taglist", "social"]
+
+# ウィジェット
+[Params.widgets]
+  tags_counter = true
+
+# SNS等のユーザー名
+[Params.widgets.social]
+  twitter = "sheeeeepla"
+  github = "sheepla"
 
