@@ -1,22 +1,20 @@
 <!doctype html><html class=no-js lang=ja>
 <head>
-<meta name=generator content="Hugo 0.86.1">
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta http-equiv=x-ua-compatible content="IE=edge">
-<title>sheepla-note</title>
+<title>Arch Linuxのパッケージをパッケージリストで管理する - sheepla-note</title>
 <script>(function(a,b){a[b]=a[b].replace("no-js","js")})(document.documentElement,"className")</script>
 <meta name=description content>
 <meta name=twitter:card content="summary">
-<meta name=twitter:title content="sheepla-note">
-<meta name=twitter:description content>
+<meta name=twitter:title content="Arch Linuxのパッケージをパッケージリストで管理する">
+<meta name=twitter:description content="この記事では、Arch Linuxのインストール済みパッケージリストを作成して管理・一括インストールする方法を紹介します。ここでは、AURヘル">
 <link rel=preconnect href=https://fonts.gstatic.com crossorigin>
 <link rel=dns-prefetch href=//fonts.googleapis.com>
 <link rel=dns-prefetch href=//fonts.gstatic.com>
 <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
 <link rel=stylesheet href=/sheepla-note/css/style.css>
 <link rel=stylesheet href=/sheepla-note/css/custom.css>
-<link rel=alternate type=application/rss+xml href=/sheepla-note/index.xml title=sheepla-note>
 <link rel="shortcut icon" href=/sheepla-note/favicon.ico>
 </head>
 <body class=body>
@@ -46,63 +44,77 @@
 </header>
 <div class="wrapper flex">
 <div class=primary>
-<main class="main list" role=main>
-<article class="list__item post">
-<header class=list__header>
-<h2 class="list__title post__title">
-<a href=/sheepla-note/posts/archlinux-pkglist/ rel=bookmark>
-Arch Linuxのパッケージをパッケージリストで管理する
-</a>
-</h2>
-<div class="list__meta meta">
+<main class=main role=main>
+<article class=post>
+<header class=post__header>
+<h1 class=post__title>Arch Linuxのパッケージをパッケージリストで管理する</h1>
+<div class="post__meta meta">
 <div class="meta__item-datetime meta__item">
 <svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class=meta__text datetime=2021-08-07T00:00:00Z>August 07, 2021</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2 1 2h8v11H0V2z"/></svg><span class=meta__text><a class=meta__link href=/sheepla-note/categories/archlinux/ rel=category>archlinux</a>
 </span>
 </div></div>
-</header>
-<div class="content list__excerpt post__content clearfix">
-この記事では、Arch Linuxのインストール済みパッケージリストを作成して管理・一括インストールする方法を紹介します。ここでは、AURヘル
+</header><div class="content post__content clearfix">
+<p>この記事では、Arch Linuxのインストール済みパッケージリストを作成して管理・一括インストールする方法を紹介します。ここでは、AURヘルパーとして <code>yay</code> を使用している前提で書いています。 <code>paru</code> 等、他のAURヘルパーを使用している場合は適宜読み替えてください。</p>
+<h2 id=パッケージリストの作成>パッケージリストの作成</h2>
+<p>明示的にインストールしたパッケージの名前を出力し、 <code>pkglist.txt</code> ファイルに保存します。</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>yay -Qeq &gt; pkglist.txt
+</code></pre></div><p><em>解説</em></p>
+<ul>
+<li><code>-Q</code>, <code>--query</code> : ローカルのパッケージデータベースに問い合わせ、インストール済みのパッケージを検索します。</li>
+<li><code>-e</code>, <code>--explict</code>: 明示的にインストールしたパッケージのみ検索します。</li>
+<li><code>-q</code>, <code>--quiet</code> : パッケージの名前のみを出力します。</li>
+</ul>
+<h3 id=aur等外部からインストールしたものを分割する>AUR等、外部からインストールしたものを分割する</h3>
+<p>公式リポジトリからインストールしたパッケージと、そうでないもの（AURや自作パッケージなど）を分割して管理したいかもしれません。その場合は以下の方法で作成することができます。</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>yay -Qeqn &gt; pkglist.txt <span style=color:#75715e># 公式リポジトリからインストールしたもの</span>
+yay -Qeqm &gt; pkglist-foreign.txt <span style=color:#75715e># その他</span>
+</code></pre></div><p><em>解説</em></p>
+<ul>
+<li><code>-n</code>, <code>--native</code>: 公式リポジトリからインストールしたパッケージのみ検索します。</li>
+<li><code>-m</code>, <code>--foreign</code>: 公式パッケージ以外からインストールしたパッケージのみ検索します。</li>
+</ul>
+<h2 id=dotfilesで管理>dotfilesで管理</h2>
+<p>上記で作成したパッケージリストは、手持ちのdotfilesリポジトリに移動して管理すると楽です。<code>git diff</code> 等で確認も容易にできます。</p>
+<h2 id=一括インストール>一括インストール</h2>
+<p>パッケージリストに記載されているパッケージを一括でインストールする場合は次のように実行します。</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>yay -S --needed - &lt; pkglist.txt
+</code></pre></div><p><em>解説</em></p>
+<ul>
+<li><code>-S </code> , <code>--sync</code> : パッケージをインストールします。</li>
+<li><code>--needed</code>: 既に最新のパッケージは再インストールしないようにします。</li>
+<li><code>pacman</code> や <code>yay</code> の引数にパッケージ名ではなく <code>-</code> を与えると、標準入力から読み込んだ行をパッケージ名と解釈します。</li>
+</ul>
+<h2 id=参考記事>参考記事</h2>
+<p><a href=https://wiki.archlinux.jp/index.php/Pacman_%E3%83%92%E3%83%B3%E3%83%88>Pacman ヒント - Arch Wiki</a></p>
 </div>
-<div class="list__footer clearfix">
-<a class="list__footer-readmore btn" href=/sheepla-note/posts/archlinux-pkglist/>続きを読む…</a>
+<footer class=post__footer>
+<div class="post__tags tags clearfix"><svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5.0 11V3C0 1.5.8.8.8.8S1.5.0 3 0h8c1.5.0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 100-6 3 3 0 000 6z"/></svg>
+<ul class=tags__list>
+<li class=tags__item>
+<a class="tags__link btn" href=/sheepla-note/tags/archlinux/ rel=tag>archlinux</a>
+</li>
+<li class=tags__item>
+<a class="tags__link btn" href=/sheepla-note/tags/pacman/ rel=tag>pacman</a>
+</li>
+<li class=tags__item>
+<a class="tags__link btn" href=/sheepla-note/tags/dotfiles/ rel=tag>dotfiles</a>
+</li>
+</ul>
 </div>
-</article><article class="list__item post">
-<header class=list__header>
-<h2 class="list__title post__title">
-<a href=/sheepla-note/posts/pacman-oneliners/ rel=bookmark>
-pacman(+fzf)ワンライナーで快適パッケージ管理
-</a>
-</h2>
-<div class="list__meta meta">
-<div class="meta__item-datetime meta__item">
-<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class=meta__text datetime=2021-08-07T00:00:00Z>August 07, 2021</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2 1 2h8v11H0V2z"/></svg><span class=meta__text><a class=meta__link href=/sheepla-note/categories/introduction/ rel=category>introduction</a>
-</span>
-</div></div>
-</header>
-<div class="content list__excerpt post__content clearfix">
-この記事では、Arch Linuxのパッケージマネージャー pacman について、ワンライナーや通常よりも一歩進んだ便利な使い方を紹介していきます。pac
-</div>
-<div class="list__footer clearfix">
-<a class="list__footer-readmore btn" href=/sheepla-note/posts/pacman-oneliners/>続きを読む…</a>
-</div>
-</article><article class="list__item post">
-<header class=list__header>
-<h2 class="list__title post__title">
-<a href=/sheepla-note/posts/introduction/ rel=bookmark>
-自己紹介
-</a>
-</h2>
-<div class="list__meta meta">
-<div class="meta__item-datetime meta__item">
-<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class=meta__text datetime=2021-08-07T00:00:00Z>August 07, 2021</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2 1 2h8v11H0V2z"/></svg><span class=meta__text><a class=meta__link href=/sheepla-note/categories/introduction/ rel=category>introduction</a>
-</span>
-</div></div>
-</header>
-<div class="content list__excerpt post__content clearfix">
-自己紹介 sheeplaについて 名前: sheepla 名前の由来: ひつじが1匹, ひつじが2匹…から連想して付けました。特に深い意味はありません。
-</div>
+</footer>
 </article>
 </main>
+<div class="authorbox clearfix">
+<figure class=authorbox__avatar>
+<img alt="sheepla avatar" src=/sheepla-note/img/avatar.png class=avatar height=90 width=90>
+</figure>
+<div class=authorbox__header>
+<span class=authorbox__name>sheeplaについて</span>
+</div>
+<div class=authorbox__description>
+Linux, Vim, PowerShell等を気ままに触っているただのひつじ。シンプルなソフトウェアが好きです。
+</div>
+</div>
 </div>
 <aside class=sidebar><div class="widget-search widget">
 <form class=widget-search__form role=search method=get action=https://google.com/search>

@@ -1,0 +1,230 @@
+<!doctype html><html class=no-js lang=ja>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<title>pacman(+fzf)ワンライナーで快適パッケージ管理 - sheepla-note</title>
+<script>(function(a,b){a[b]=a[b].replace("no-js","js")})(document.documentElement,"className")</script>
+<meta name=description content>
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="pacman(+fzf)ワンライナーで快適パッケージ管理">
+<meta name=twitter:description content="この記事では、Arch Linuxのパッケージマネージャー pacman について、ワンライナーや通常よりも一歩進んだ便利な使い方を紹介していきます。pac">
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+<link rel=dns-prefetch href=//fonts.googleapis.com>
+<link rel=dns-prefetch href=//fonts.gstatic.com>
+<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+<link rel=stylesheet href=/sheepla-note/css/style.css>
+<link rel=stylesheet href=/sheepla-note/css/custom.css>
+<link rel="shortcut icon" href=/sheepla-note/favicon.ico>
+</head>
+<body class=body>
+<div class="container container--outer">
+<header class=header>
+<div class="container header__container">
+<div class=logo>
+<a class=logo__link href=/sheepla-note title=sheepla-note rel=home>
+<div class="logo__item logo__text">
+<div class=logo__title>sheepla-note</div>
+</div>
+</a>
+</div>
+<nav class=menu>
+<button class=menu__btn aria-haspopup=true aria-expanded=false tabindex=0>
+<span class=menu__btn-title tabindex=-1>メニュー</span>
+</button>
+<ul class=menu__list>
+<li class=menu__item>
+<a class=menu__link href=/sheepla-note/posts/introduction/>
+<span class=menu__text>自己紹介</span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</header>
+<div class="wrapper flex">
+<div class=primary>
+<main class=main role=main>
+<article class=post>
+<header class=post__header>
+<h1 class=post__title>pacman(+fzf)ワンライナーで快適パッケージ管理</h1>
+<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class=meta__text datetime=2021-08-07T00:00:00Z>August 07, 2021</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2 1 2h8v11H0V2z"/></svg><span class=meta__text><a class=meta__link href=/sheepla-note/categories/introduction/ rel=category>introduction</a>
+</span>
+</div></div>
+</header><div class="content post__content clearfix">
+<p>この記事では、Arch Linuxのパッケージマネージャー <code>pacman</code> について、ワンライナーや通常よりも一歩進んだ便利な使い方を紹介していきます。<code>pacman</code> の基本的な使い方は解説していません。以下の記事が参考になります。</p>
+<ul>
+<li>
+<p><a href=https://wiki.archlinux.jp/index.php/Pacman>Arch Wiki - Pacman</a></p>
+</li>
+<li>
+<p><a href=http://malkalech.com/arch_linux_pacman>Arch Linux の pacman コマンドを使うことのメモ</a></p>
+</li>
+</ul>
+<h2 id=基本編-パッケージのリストアップ>基本編: パッケージのリストアップ</h2>
+<ul>
+<li>インストール済みのパッケージについて、名前のみをすべて表示: <code>pacman -Qq</code></li>
+<li>明示的にインストールしたもののみ表示: <code>pacman -Qeq</code></li>
+<li>インストール済みのパッケージのうち、アップグレード可能なものを検索: <code>pacman -Quq</code></li>
+</ul>
+<h2 id=インストール容量を一覧表示>インストール容量を一覧表示</h2>
+<p>インストール済みのパッケージすべての容量をリストアップし、インストールサイズの昇順でソートします。</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>LANG<span style=color:#f92672>=</span>C pacman -Qi <span style=color:#f92672>[</span>キーワード...<span style=color:#f92672>]</span> | awk <span style=color:#e6db74>&#39;/^Name/{name=$3} /^Installed Size/{print $4$5, name}&#39;</span> | sort -h
+</code></pre></div><h3 id=解説>解説</h3>
+<ul>
+<li><code>LANG=C</code> 言語設定が日本語になっている場合、キーの名前が変わってしまうので強制的にデフォルトのロケールで実行します。</li>
+<li><code>pacman -Qi</code> : インストール済みのパッケージをすべて検索し、そのパッケージの詳細情報を表示します。</li>
+<li><code>awk ...</code>: パッケージの名前とインストールサイズの値を取得し、<code>&lt;インストールサイズ>&lt;単位> &lt;パッケージ名></code> の形式で出力します。</li>
+<li><code>sort -h</code> : インストールサイズの昇順でソートします。<code>-h</code>, <code>--human-numeric-sort</code> オプションを付けることで、 <code>K</code> (キロ) <code>G</code> (ギガ) などの単位を解釈してソートすることができます。</li>
+</ul>
+<h2 id=fzfを活用する>fzfを活用する</h2>
+<p><em>fzf</em> は汎用のあいまい検索インタフェース(Fuzzy Finder)です。fzfを使うことでインタラクティブに項目を絞り込み、素早くパッケージを見つけることができます。</p>
+<p>まずは <code>fzf</code> をインストールしましょう。公式のcommunityリポジトリにあります。</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>sudo pacman -S fzf
+</code></pre></div><h3 id=パッケージの情報をリアルタイムプレビュー>パッケージの情報をリアルタイムプレビュー</h3>
+<p>fzfはプレビュー機能を備えておりとても便利です。以下のワンライナーは</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=color:#75715e># インストール済みのパッケージを検索する場合</span>
+pacman -Qq <span style=color:#f92672>[</span>キーワード...<span style=color:#f92672>]</span> | fzf --preview <span style=color:#e6db74>&#39;LANG=C pacman -Qi {}&#39;</span> --bind <span style=color:#e6db74>&#39;enter:execute(pacman -Qi {} | less)&#39;</span>
+
+<span style=color:#75715e># リモートのパッケージデータベースからパッケージを検索する場合</span>
+pacman -Ssq <span style=color:#f92672>[</span>キーワード...<span style=color:#f92672>]</span> | fzf --preview <span style=color:#e6db74>&#39;LANG=C pacman -Si {}&#39;</span> --bind <span style=color:#e6db74>&#39;enter:execute(LANG=C pacman -Si {} | less)&#39;</span>
+</code></pre></div><h4 id=使い方>使い方</h4>
+<ol>
+<li>上記のワンライナーを実行する</li>
+<li><code>Ctrl+j</code> <code>Ctrl+k</code> キーまたは <code>Ctrl+n</code> <code>Ctrl+p</code> でカーソルを移動し<code>Enter</code>でパッケージを選択する</li>
+<li><code>less</code>ページャが起動しパッケージの詳細情報を閲覧できる</li>
+<li><code>q</code> キーを押下すると <code>fzf</code> の画面に戻る</li>
+</ol>
+<h4 id=解説-1>解説</h4>
+<ul>
+<li>
+<p><code>pacman -Qq</code> : インストール済みのパッケージをすべて検索し、そのパッケージの名前のみ出力します。</p>
+</li>
+<li>
+<p><code>pacman -Ssq キーワード...</code> : インストール済みのパッケージをすべて検索し、そのパッケージの名前のみ出力します。</p>
+</li>
+<li>
+<p><code>pacman -Qi パッケージ名</code>, <code>pacman -Si パッケージ名</code> : パッケージの詳細情報を出力します。</p>
+</li>
+<li>
+<p><code>fzf --preview="...{}..."</code>: <code>...</code> に記述したコマンドを実行し、プレビューウインドウに表示します。<code>{}</code> が現在フォーカスしている項目に置換されてから評価が行われます。</p>
+</li>
+<li>
+<p><code>fzf --bind 'キー:execute(コマンド...)'</code>: <code>fzf</code> が起動した状態で <code>キー</code> を押下したときの挙動を設定します。</p>
+</li>
+<li>
+<p><code>LANG=C</code> 言語設定が日本語になっている場合、プレビューウインドウの表示が崩れてしまう場合があるので強制的にデフォルトのロケールで実行します。</p>
+</li>
+</ul>
+<h3 id=パッケージを探して即座にインストールアンインストール>パッケージを探して即座にインストール・アンインストール</h3>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=color:#75715e># インストール</span>
+pacman -Ssq <span style=color:#f92672>[</span>キーワード...<span style=color:#f92672>]</span> | fzf --multi --preview <span style=color:#e6db74>&#39;LANG=C pacman -Si {}&#39;</span> | sudo pacman -S -
+<span style=color:#75715e># アンインストール</span>
+pacman -Qq <span style=color:#f92672>[</span>キーワード...<span style=color:#f92672>]</span> | fzf --multi --preview <span style=color:#e6db74>&#39;LANG=C pacman -Qi {}&#39;</span> | sudo pacman -Rn -
+</code></pre></div><h4 id=使い方-1>使い方</h4>
+<p>基本的には上記と同様です。<code>Tab</code> キーを押下することで複数のパッケージを選択することができます。 <code>Enter</code> で選択を確定すると、インストール・アンインストールの内容を確認するプロンプトが表示されます。</p>
+<h4 id=解説-2>解説</h4>
+<ul>
+<li>
+<p><code> sudo pacman -S パッケージ名</code> : パッケージをインストールします。 引数にパッケージ名ではなく<code>-</code> を与えると、標準入力から受け取ったテキストをパッケージ名と解釈してそのパッケージをインストールします。</p>
+</li>
+<li>
+<p><code>sudo pacman -R パッケージ名</code>: パッケージをアンインストールします。<code>-S</code> 同様、引数に <code>-</code> を与えると、標準入力から受け取ったテキストをパッケージ名と解釈してそのパッケージをアンインストールします。任意のパッケージを再帰的に削除するには <code>sudo pacman -Rns</code> を使います。</p>
+</li>
+<li>
+<p><code>fzf --multi</code>: fzfが起動した状態で <code>Tab</code> キーを押下することで、複数の項目を選択することができます。</p>
+</li>
+</ul>
+<h2 id=参考>参考</h2>
+<ul>
+<li>
+<p><a href=https://wiki.archlinux.jp/index.php/Pacman_%E3%83%92%E3%83%B3%E3%83%88>Arch Wiki - Pacmanヒント</a></p>
+</li>
+<li>
+<p><a href=https://wiki.archlinux.jp/index.php/Fzf#Arch_.E3.81.A7_fzf_.E3.82.92.E4.BD.BF.E7.94.A8.E3.81.99.E3.82.8B>Arch Wiki -Fzf</a></p>
+</li>
+</ul>
+</div>
+</article>
+</main>
+<div class="authorbox clearfix">
+<figure class=authorbox__avatar>
+<img alt="sheepla avatar" src=/sheepla-note/img/avatar.png class=avatar height=90 width=90>
+</figure>
+<div class=authorbox__header>
+<span class=authorbox__name>sheeplaについて</span>
+</div>
+<div class=authorbox__description>
+Linux, Vim, PowerShell等を気ままに触っているただのひつじ。シンプルなソフトウェアが好きです。
+</div>
+</div>
+</div>
+<aside class=sidebar><div class="widget-search widget">
+<form class=widget-search__form role=search method=get action=https://google.com/search>
+<label>
+<input class=widget-search__field type=search placeholder=検索… name=q aria-label=検索…>
+</label>
+<input class=widget-search__submit type=submit value=Search>
+<input type=hidden name=sitesearch value=https://sheepla.github.io/sheepla-note>
+</form>
+</div>
+<div class="widget-recent widget">
+<h4 class=widget__title>最近の投稿</h4>
+<div class=widget__content>
+<ul class=widget__list>
+<li class=widget__item><a class=widget__link href=/sheepla-note/posts/archlinux-pkglist/>Arch Linuxのパッケージをパッケージリストで管理する</a></li>
+<li class=widget__item><a class=widget__link href=/sheepla-note/posts/pacman-oneliners/>pacman(+fzf)ワンライナーで快適パッケージ管理</a></li>
+<li class=widget__item><a class=widget__link href=/sheepla-note/posts/introduction/>自己紹介</a></li>
+</ul>
+</div>
+</div>
+<div class="widget-categories widget">
+<h4 class=widget__title>カテゴリー</h4>
+<div class=widget__content>
+<ul class=widget__list>
+<li class=widget__item>
+<a class=widget__link href=/sheepla-note/categories/archlinux/>archlinux</a></li>
+<li class=widget__item>
+<a class=widget__link href=/sheepla-note/categories/introduction/>introduction</a></li>
+</ul>
+</div>
+</div>
+<div class="widget-taglist widget">
+<h4 class=widget__title>タグ</h4>
+<div class=widget__content>
+<a class="widget-taglist__link widget__link btn" href=/sheepla-note/tags/archlinux/ title=archlinux>archlinux</a>
+<a class="widget-taglist__link widget__link btn" href=/sheepla-note/tags/dotfiles/ title=dotfiles>dotfiles</a>
+<a class="widget-taglist__link widget__link btn" href=/sheepla-note/tags/pacman/ title=pacman>pacman</a>
+</div>
+</div>
+<div class="widget-social widget">
+<h4 class="widget-social__title widget__title">ソーシャル</h4>
+<div class="widget-social__content widget__content">
+<div class="widget-social__item widget__item">
+<a class="widget-social__link widget__link btn" title=Twitter rel="noopener noreferrer" href=https://twitter.com/sheeeeepla target=_blank><svg class="widget-social__link-icon icon icon-twitter" width="24" height="24" viewBox="0 0 384 312"><path d="m384 36.9c-14.1 6.3-29.3 10.5-45.2 12.4 16.3-9.7 28.8-25.2 34.6-43.6-15.2 9-32.1 15.6-50 19.1-14.4-15.2-34.9-24.8-57.5-24.8-43.5.0-78.8 35.3-78.8 78.8.0 6.2.7 12.2 2 17.9-65.5-3.3-123.5-34.6-162.4-82.3C20 26 16.1 39.6 16.1 54c0 27.3 13.9 51.4 35 65.6-12.9-.4-25.1-4-35.7-9.9v1c0 38.2 27.2 70 63.2 77.2-6.6 1.8-13.6 2.8-20.8 2.8-5.1.0-10-.5-14.8-1.4 10 31.3 39.1 54.1 73.6 54.7-27 21.1-60.9 33.7-97.8 33.7-6.4.0-12.6-.4-18.8-1.1C34.9 299 76.3 312 120.8 312c144.9.0 224.1-120 224.1-224.1.0-3.4-.1-6.8-.2-10.2 15.4-11.1 28.7-25 39.3-40.8z"/></svg>
+<span>Twitter</span>
+</a>
+</div>
+<div class="widget-social__item widget__item">
+<a class="widget-social__link widget__link btn" title=GitHub rel="noopener noreferrer" href=https://github.com/sheepla target=_blank><svg class="widget-social__link-icon icon icon-github" width="24" height="24" viewBox="0 0 384 374"><path d="m192 0C85.9.0.0 85.8.0 191.7c0 84.7 55 156.6 131.3 181.9 9.6 1.8 13.1-4.2 13.1-9.2.0-4.6-.2-16.6-.3-32.6-53.4 11.6-64.7-25.7-64.7-25.7-8.7-22.1-21.3-28-21.3-28-17.4-11.9 1.3-11.6 1.3-11.6 19.3 1.4 29.4 19.8 29.4 19.8 17.1 29.3 44.9 20.8 55.9 15.9 1.7-12.4 6.7-20.8 12.2-25.6-42.6-4.8-87.5-21.3-87.5-94.8.0-20.9 7.5-38 19.8-51.4-2-4.9-8.6-24.3 1.9-50.7.0.0 16.1-5.2 52.8 19.7 15.3-4.2 31.7-6.4 48.1-6.5 16.3.1 32.7 2.2 48.1 6.5 36.7-24.8 52.8-19.7 52.8-19.7 10.5 26.4 3.9 45.9 1.9 50.7 12.3 13.4 19.7 30.5 19.7 51.4.0 73.7-44.9 89.9-87.7 94.6 6.9 5.9 13 17.6 13 35.5.0 25.6-.2 46.3-.2 52.6.0 5.1 3.5 11.1 13.2 9.2C329 348.2 384 276.4 384 191.7 384 85.8 298 0 192 0z"/></svg>
+<span>GitHub</span>
+</a>
+</div>
+</div>
+</div>
+</aside>
+</div>
+<footer class=footer>
+<div class="container footer__container flex">
+<div class=footer__copyright>
+&copy; 2021 Author.
+<span class=footer__copyright-credits>このサイトは <a href=https://gohugo.io/ rel="nofollow noopener" target=_blank>Hugo</a> と <a href=https://github.com/Vimux/Mainroad/ rel="nofollow noopener" target=_blank>Mainroad</a> テーマで生成されています。</span>
+</div>
+</div>
+</footer>
+</div>
+<script async defer src=/sheepla-note/js/menu.js></script>
+</body>
+</html>
