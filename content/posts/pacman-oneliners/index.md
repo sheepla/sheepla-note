@@ -20,13 +20,14 @@ tags: ["pacman", "fzf", "oneliner"]
 - インストール済みのパッケージのうち、アップグレード可能なものを検索: `pacman -Quq`
 
 
-
 ## インストール容量を一覧表示
 
 インストール済みのパッケージすべての容量をリストアップし、インストールサイズの昇順でソートします。
 
 ```bash
-LANG=C pacman -Qi [キーワード...] | awk '/^Name/{name=$3} /^Installed Size/{print $4$5, name}' | sort -h
+LANG=C pacman -Qi [キーワード...] | 
+    awk '/^Name/{name=$3} /^Installed Size/{print $4$5, name}' | 
+    sort -h
 ```
 
 ### 解説
@@ -42,7 +43,10 @@ LANG=C pacman -Qi [キーワード...] | awk '/^Name/{name=$3} /^Installed Size/
 
 *fzf* は汎用のあいまい検索インタフェース(Fuzzy Finder)です。fzfを使うことでインタラクティブに項目を絞り込み、素早くパッケージを見つけることができます。
 
+> [junegunn/fzf - GitHub](https://github.com/junegunn/fzf)
+
 まずは `fzf` をインストールしましょう。公式のcommunityリポジトリにあります。
+
 
 ```bash
 sudo pacman -S fzf
@@ -55,10 +59,14 @@ fzfはプレビュー機能を備えておりとても便利です。以下の�
 
 ```bash
 # インストール済みのパッケージを検索する場合
-pacman -Qq [キーワード...] | fzf --preview 'LANG=C pacman -Qi {}' --bind 'enter:execute(pacman -Qi {} | less)'
+pacman -Qq [キーワード...] | 
+    fzf --preview 'LANG=C pacman -Qi {}' \
+    --bind 'enter:execute(pacman -Qi {} | less)'
 
 # リモートのパッケージデータベースからパッケージを検索する場合
-pacman -Ssq [キーワード...] | fzf --preview 'LANG=C pacman -Si {}' --bind 'enter:execute(LANG=C pacman -Si {} | less)'
+pacman -Ssq [キーワード...] | 
+    fzf --preview 'LANG=C pacman -Si {}' \
+    --bind 'enter:execute(LANG=C pacman -Si {} | less)'
 ```
 
 #### 使い方
@@ -88,9 +96,14 @@ pacman -Ssq [キーワード...] | fzf --preview 'LANG=C pacman -Si {}' --bind '
 
 ```bash
 # インストール
-pacman -Ssq [キーワード...] | fzf --multi --preview 'LANG=C pacman -Si {}' | sudo pacman -S -
+pacman -Ssq [キーワード...] | 
+    fzf --multi --preview 'LANG=C pacman -Si {}' | 
+    sudo pacman -S -
+
 # アンインストール
-pacman -Qq [キーワード...] | fzf --multi --preview 'LANG=C pacman -Qi {}' | sudo pacman -Rn -
+pacman -Qq [キーワード...] | 
+    fzf --multi --preview 'LANG=C pacman -Qi {}' |
+    sudo pacman -Rn -
 ```
 
 #### 使い方
@@ -101,7 +114,7 @@ pacman -Qq [キーワード...] | fzf --multi --preview 'LANG=C pacman -Qi {}' |
 
 - ` sudo pacman -S パッケージ名` : パッケージをインストールします。 引数にパッケージ名ではなく`-` を与えると、標準入力から受け取ったテキストをパッケージ名と解釈してそのパッケージをインストールします。
 - `sudo pacman -Rn パッケージ名`: パッケージをアンインストールします。`-S` と同様、引数に `-` を与えると、標準入力から受け取ったテキストをパッケージ名と解釈してそのパッケージをアンインストールします。
-    - 任意のパッケージを再帰的に削除するには `sudo pacman -Rns` を使います。
+    - 任意のパッケージを再帰的に削除するには `sudo pacman -Rns パッケージ名` を使います。
 
 - `fzf --multi`: fzfが起動した状態で `Tab` キーを押下することで、複数の項目を選択することができます。
 
@@ -110,7 +123,11 @@ pacman -Qq [キーワード...] | fzf --multi --preview 'LANG=C pacman -Qi {}' |
 fzfでパッケージを絞り込み、選択したパッケージのURLをデフォルトのブラウザで開きます。
 
 ```bash
-LANG=C pacman -Ssq [キーワード...] | fzf --multi --preview 'LANG=C pacman -Si {1}' | pacman -Si - | awk '/^URL/{print $3}' | xargs -I@ -- xdg-open @ >/dev/null
+LANG=C pacman -Ssq [キーワード...] |
+    fzf --multi --preview 'LANG=C pacman -Si {}' |
+    pacman -Si - |
+    awk '/^URL/{print $3}' |
+    xargs -I@ -- xdg-open @ >/dev/null
 ```
 
 #### 解説
