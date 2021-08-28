@@ -85,7 +85,7 @@
 <p>まずは <code>fzf</code> をインストールしましょう。公式のcommunityリポジトリにあります。</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>sudo pacman -S fzf
 </code></pre></div><h3 id=パッケージの情報をリアルタイムプレビュー>パッケージの情報をリアルタイムプレビュー</h3>
-<p>fzfはプレビュー機能を備えておりとても便利です。以下のワンライナーは</p>
+<p>fzfはプレビュー機能を備えておりとても便利です。以下のワンライナーを実行すると、パッケージの情報をリアルタイムプレビューで閲覧することができます。</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=color:#75715e># インストール済みのパッケージを検索する場合</span>
 pacman -Qq <span style=color:#f92672>[</span>キーワード...<span style=color:#f92672>]</span> | fzf --preview <span style=color:#e6db74>&#39;LANG=C pacman -Qi {}&#39;</span> --bind <span style=color:#e6db74>&#39;enter:execute(pacman -Qi {} | less)&#39;</span>
 
@@ -140,6 +140,16 @@ pacman -Qq <span style=color:#f92672>[</span>キーワード...<span style=color
 <li>
 <p><code>fzf --multi</code>: fzfが起動した状態で <code>Tab</code> キーを押下することで、複数の項目を選択することができます。</p>
 </li>
+</ul>
+<h3 id=パッケージのurlをブラウザで開く>パッケージのURLをブラウザで開く</h3>
+<p>fzfでパッケージを絞り込み、選択したパッケージのURLをデフォルトのブラウザで開きます。</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>LANG<span style=color:#f92672>=</span>C pacman -Ssq <span style=color:#f92672>[</span>キーワード...<span style=color:#f92672>]</span> | fzf --multi --preview <span style=color:#e6db74>&#39;LANG=C pacman -Si {1}&#39;</span> | pacman -Si - | awk <span style=color:#e6db74>&#39;/^URL/{print $3}&#39;</span> | xargs -I@ -- xdg-open @ &gt;/dev/null
+</code></pre></div><h4 id=解説-3>解説</h4>
+<ul>
+<li><code>awk...</code>: URLの値を取り出します。</li>
+<li><code>xdg-open</code>: xdg-openは引数に与えられたファイルパスやURLをデフォルトのアプリケーションで開くコマンドです。Windowsの <code>start</code> やmacOSの <code>open</code> に相当します。</li>
+<li><code>>/dev/null</code>: xdg-openでURLを開くと「規定のブラウザセッションで開いています」などと表示されるのですが、その出力を捨てています。</li>
+<li>それ以外は上記と同様です。</li>
 </ul>
 <h2 id=参考>参考</h2>
 <ul>
