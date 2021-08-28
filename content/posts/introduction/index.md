@@ -2,7 +2,7 @@
 title: "自己紹介"
 date: 2021-08-07
 categories: ["introduction"]
-tags: []
+tags: ["introduction"]
 menu: main
 ---
 
