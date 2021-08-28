@@ -127,14 +127,13 @@ LANG=C pacman -Ssq [キーワード...] |
     fzf --multi --preview 'LANG=C pacman -Si {}' |
     pacman -Si - |
     awk '/^URL/{print $3}' |
-    xargs -I@ -- xdg-open @ >/dev/null
+    xargs -I@ -- xdg-open @
 ```
 
 #### 解説
 
 - `awk...`: URLの値を取り出します。
 - `xdg-open`: xdg-openは引数に与えられたファイルパスやURLをデフォルトのアプリケーションで開くコマンドです。Windowsの `start` やmacOSの `open` に相当します。
-- `>/dev/null`: xdg-openでURLを開くと「規定のブラウザセッションで開いています」などと表示されるのですが、その出力を捨てています。
 - それ以外は上記と同様です。
 
 ## 参考
