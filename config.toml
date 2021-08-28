@@ -17,11 +17,11 @@ theme = "mainroad"
 # 自己紹介
 [Author]
     name = "sheepla"
-    bio = "Linux, Vim, PowerShell等を気ままに触っているただのひつじ。シンプルなソフトウェアが好きです。"
+    bio = "Linux, Vim, PowerShell等を気ままに触っているただのひつじ。"
     avatar = "img/avatar.png"
 
 [Params]
-    subtitle = "ひつじのノート"
+    subtitle = "ひつじの備忘録"
     description = "自分用の備忘録を兼ねて書いています。"
     authorbox = true
     copyright = "Sheepla"
@@ -39,7 +39,7 @@ theme = "mainroad"
     home = "right"
     list = "right"
     single = "right"
-    widgets = ["search", "recent", "categories", "taglist", "social"]
+    widgets = ["social", "recent", "categories", "taglist"]
 
 # ウィジェット
 [Params.widgets]
