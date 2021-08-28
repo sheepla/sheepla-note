@@ -72,7 +72,9 @@
 </ul>
 <h2 id=インストール容量を一覧表示>インストール容量を一覧表示</h2>
 <p>インストール済みのパッケージすべての容量をリストアップし、インストールサイズの昇順でソートします。</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>LANG<span style=color:#f92672>=</span>C pacman -Qi <span style=color:#f92672>[</span>キーワード...<span style=color:#f92672>]</span> | awk <span style=color:#e6db74>&#39;/^Name/{name=$3} /^Installed Size/{print $4$5, name}&#39;</span> | sort -h
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>LANG<span style=color:#f92672>=</span>C pacman -Qi <span style=color:#f92672>[</span>キーワード...<span style=color:#f92672>]</span> | 
+    awk <span style=color:#e6db74>&#39;/^Name/{name=$3} /^Installed Size/{print $4$5, name}&#39;</span> | 
+    sort -h
 </code></pre></div><h3 id=解説>解説</h3>
 <ul>
 <li><code>LANG=C</code> 言語設定が日本語になっている場合、キーの名前が変わってしまうので強制的にデフォルトのロケールで実行します。</li>
@@ -82,15 +84,22 @@
 </ul>
 <h2 id=fzfを活用する>fzfを活用する</h2>
 <p><em>fzf</em> は汎用のあいまい検索インタフェース(Fuzzy Finder)です。fzfを使うことでインタラクティブに項目を絞り込み、素早くパッケージを見つけることができます。</p>
+<blockquote>
+<p><a href=https://github.com/junegunn/fzf>junegunn/fzf - GitHub</a></p>
+</blockquote>
 <p>まずは <code>fzf</code> をインストールしましょう。公式のcommunityリポジトリにあります。</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>sudo pacman -S fzf
 </code></pre></div><h3 id=パッケージの情報をリアルタイムプレビュー>パッケージの情報をリアルタイムプレビュー</h3>
 <p>fzfはプレビュー機能を備えておりとても便利です。以下のワンライナーを実行すると、パッケージの情報をリアルタイムプレビューで閲覧することができます。</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=color:#75715e># インストール済みのパッケージを検索する場合</span>
-pacman -Qq <span style=color:#f92672>[</span>キーワード...<span style=color:#f92672>]</span> | fzf --preview <span style=color:#e6db74>&#39;LANG=C pacman -Qi {}&#39;</span> --bind <span style=color:#e6db74>&#39;enter:execute(pacman -Qi {} | less)&#39;</span>
+pacman -Qq <span style=color:#f92672>[</span>キーワード...<span style=color:#f92672>]</span> | 
+    fzf --preview <span style=color:#e6db74>&#39;LANG=C pacman -Qi {}&#39;</span> <span style=color:#ae81ff>\
+</span><span style=color:#ae81ff></span>    --bind <span style=color:#e6db74>&#39;enter:execute(pacman -Qi {} | less)&#39;</span>
 
 <span style=color:#75715e># リモートのパッケージデータベースからパッケージを検索する場合</span>
-pacman -Ssq <span style=color:#f92672>[</span>キーワード...<span style=color:#f92672>]</span> | fzf --preview <span style=color:#e6db74>&#39;LANG=C pacman -Si {}&#39;</span> --bind <span style=color:#e6db74>&#39;enter:execute(LANG=C pacman -Si {} | less)&#39;</span>
+pacman -Ssq <span style=color:#f92672>[</span>キーワード...<span style=color:#f92672>]</span> | 
+    fzf --preview <span style=color:#e6db74>&#39;LANG=C pacman -Si {}&#39;</span> <span style=color:#ae81ff>\
+</span><span style=color:#ae81ff></span>    --bind <span style=color:#e6db74>&#39;enter:execute(LANG=C pacman -Si {} | less)&#39;</span>
 </code></pre></div><h4 id=使い方>使い方</h4>
 <ol>
 <li>上記のワンライナーを実行する</li>
@@ -121,9 +130,14 @@ pacman -Ssq <span style=color:#f92672>[</span>キーワード...<span style=colo
 </ul>
 <h3 id=パッケージを探して即座にインストールアンインストール>パッケージを探して即座にインストール・アンインストール</h3>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=color:#75715e># インストール</span>
-pacman -Ssq <span style=color:#f92672>[</span>キーワード...<span style=color:#f92672>]</span> | fzf --multi --preview <span style=color:#e6db74>&#39;LANG=C pacman -Si {}&#39;</span> | sudo pacman -S -
+pacman -Ssq <span style=color:#f92672>[</span>キーワード...<span style=color:#f92672>]</span> | 
+    fzf --multi --preview <span style=color:#e6db74>&#39;LANG=C pacman -Si {}&#39;</span> | 
+    sudo pacman -S -
+
 <span style=color:#75715e># アンインストール</span>
-pacman -Qq <span style=color:#f92672>[</span>キーワード...<span style=color:#f92672>]</span> | fzf --multi --preview <span style=color:#e6db74>&#39;LANG=C pacman -Qi {}&#39;</span> | sudo pacman -Rn -
+pacman -Qq <span style=color:#f92672>[</span>キーワード...<span style=color:#f92672>]</span> | 
+    fzf --multi --preview <span style=color:#e6db74>&#39;LANG=C pacman -Qi {}&#39;</span> |
+    sudo pacman -Rn -
 </code></pre></div><h4 id=使い方-1>使い方</h4>
 <p>基本的には上記と同様です。<code>Tab</code> キーを押下することで複数のパッケージを選択することができます。 <code>Enter</code> で選択を確定すると、インストール・アンインストールの内容を確認するプロンプトが表示されます。</p>
 <h4 id=解説-2>解説</h4>
@@ -134,7 +148,7 @@ pacman -Qq <span style=color:#f92672>[</span>キーワード...<span style=color
 <li>
 <p><code>sudo pacman -Rn パッケージ名</code>: パッケージをアンインストールします。<code>-S</code> と同様、引数に <code>-</code> を与えると、標準入力から受け取ったテキストをパッケージ名と解釈してそのパッケージをアンインストールします。</p>
 <ul>
-<li>任意のパッケージを再帰的に削除するには <code>sudo pacman -Rns</code> を使います。</li>
+<li>任意のパッケージを再帰的に削除するには <code>sudo pacman -Rns パッケージ名</code> を使います。</li>
 </ul>
 </li>
 <li>
@@ -143,12 +157,15 @@ pacman -Qq <span style=color:#f92672>[</span>キーワード...<span style=color
 </ul>
 <h3 id=パッケージのurlをブラウザで開く>パッケージのURLをブラウザで開く</h3>
 <p>fzfでパッケージを絞り込み、選択したパッケージのURLをデフォルトのブラウザで開きます。</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>LANG<span style=color:#f92672>=</span>C pacman -Ssq <span style=color:#f92672>[</span>キーワード...<span style=color:#f92672>]</span> | fzf --multi --preview <span style=color:#e6db74>&#39;LANG=C pacman -Si {1}&#39;</span> | pacman -Si - | awk <span style=color:#e6db74>&#39;/^URL/{print $3}&#39;</span> | xargs -I@ -- xdg-open @ &gt;/dev/null
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>LANG<span style=color:#f92672>=</span>C pacman -Ssq <span style=color:#f92672>[</span>キーワード...<span style=color:#f92672>]</span> |
+    fzf --multi --preview <span style=color:#e6db74>&#39;LANG=C pacman -Si {}&#39;</span> |
+    pacman -Si - |
+    awk <span style=color:#e6db74>&#39;/^URL/{print $3}&#39;</span> |
+    xargs -I@ -- xdg-open @
 </code></pre></div><h4 id=解説-3>解説</h4>
 <ul>
 <li><code>awk...</code>: URLの値を取り出します。</li>
 <li><code>xdg-open</code>: xdg-openは引数に与えられたファイルパスやURLをデフォルトのアプリケーションで開くコマンドです。Windowsの <code>start</code> やmacOSの <code>open</code> に相当します。</li>
-<li><code>>/dev/null</code>: xdg-openでURLを開くと「規定のブラウザセッションで開いています」などと表示されるのですが、その出力を捨てています。</li>
 <li>それ以外は上記と同様です。</li>
 </ul>
 <h2 id=参考>参考</h2>
@@ -246,6 +263,7 @@ Linux, Vim, PowerShell等を気ままに触っているただのひつじ。
 <a class="widget-taglist__link widget__link btn" href=/sheepla-note/tags/dotfiles/ title=dotfiles>dotfiles (1)</a>
 <a class="widget-taglist__link widget__link btn" href=/sheepla-note/tags/fonts/ title=fonts>fonts (1)</a>
 <a class="widget-taglist__link widget__link btn" href=/sheepla-note/tags/fzf/ title=fzf>fzf (1)</a>
+<a class="widget-taglist__link widget__link btn" href=/sheepla-note/tags/introduction/ title=introduction>introduction (1)</a>
 <a class="widget-taglist__link widget__link btn" href=/sheepla-note/tags/linux/ title=linux>linux (1)</a>
 <a class="widget-taglist__link widget__link btn" href=/sheepla-note/tags/oneliner/ title=oneliner>oneliner (1)</a>
 <a class="widget-taglist__link widget__link btn" href=/sheepla-note/tags/pacman/ title=pacman>pacman (2)</a>
