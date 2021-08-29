@@ -134,7 +134,17 @@ LANG=C pacman -Ssq [キーワード...] |
 
 - `awk...`: URLの値を取り出します。
 - `xdg-open`: xdg-openは引数に与えられたファイルパスやURLをデフォルトのアプリケーションで開くコマンドです。Windowsの `start` やmacOSの `open` に相当します。
+
+    **メモ**
+
+    xdg-openは `xdg-utils` パッケージに含まれています。詳しくは以下の記事が参考になります。
+
+    > [ターミナルからファイルを開く - sekikka.github.io](https://sekika.github.io/2015/10/27/open-command/)
+
+    > [xdg-open - Arch Linux Manual](https://man.archlinux.org/man/xdg-open.1)
+
 - それ以外は上記と同様です。
+
 
 ## 参考
 
