@@ -10,11 +10,16 @@ tags: ["powershell"]
 
 ## プロファイルとは
 
-PowerShellにおけるプロファイルとは、PowerShellを起動したときに自動で読み込まれるスクリプトです。bashにおける `.bash_profile` に相当します。
+PowerShellにおけるプロファイルとは、PowerShellを起動したときに自動で読み込まれるスクリプトです。
+
+> PowerShell プロファイルを作成して、環境をカスタマイズし、開始するすべての PowerShell セッションにセッション固有の要素を追加できます。
+> PowerShell プロファイルは、PowerShell の開始時に実行されるスクリプトです。 プロファイルをログオン スクリプトとして使用して、環境をカスタマイズできます。 コマンド、エイリアス、関数、変数、スナップイン、モジュール、PowerShell ドライブを追加できます。 また、プロファイルに他のセッション固有の要素を追加して、インポートまたは再作成することなく、すべてのセッションで使用することもできます。
+> 
+> [about Profiles - Microsoft Docs](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_profiles?view=powershell-7.1)
 
 ## $PROFILEを作成
 
-プロファイルのパスは、自動変数 `$PROFILE` に格納されています。(OSやPowerShellのバージョンによって異なります) 新規作成するには以下のコマンドレットを実行してください。 `notepad $PROFILE` またはお好きなエディタで編集します。
+プロファイルのパスは、変数 `$PROFILE` に格納されています。(OSやPowerShellのバージョンによって異なります) 新規作成するには以下のコマンドレットを実行してください。 `notepad $PROFILE` またはお好きなエディタで編集します。
 
 ```powershell
 New-Item -Type File -Path $PROFILE -Force # 新規作成
@@ -35,7 +40,7 @@ pwsh -NoProfile       # PowerShell Core
 ## 基本編(PSReadlineモジュールの設定)
 
 PowerShellには `PSReadline` というモジュールがデフォルトでインストールされています。
-`Set-PSReadlineOption`, `Set-PSReadlineKeyHandler` コマンドレットを使うことでキーバインドやシンタックスハイライトの色などをカスタマイズすることができます。詳しくはMicrosoftの公式ドキュメントを参照してください。
+`Set-PSReadlineOption`, `Set-PSReadlineKeyHandler` コマンドレットを使うことでキーバインドやシンタックスハイライトの色などをカスタマイズすることができます。詳しくは以下のドキュメントを参照してください。
 
 > [About PSReadline - Microsoft Docs](https://docs.microsoft.com/en-us/powershell/module/psreadline/?view=powershell-7.1)
 
@@ -89,7 +94,7 @@ Set-PSReadlineOption -EditMode "Vi"    # Vi風キーバインド
 ```
 #### 個別にキーを割り当てる
 
-キーを押下したときの動作を個別に設定するには `Set-PSReadlineKeyHandler` コマンドレットを使用します。例えば、`Ctrl+o` を押下したときに補完メニューを表示するように設定するには次を実行します。
+キーを押下したときの動作を個別に設定するには `Set-PSReadlineKeyHandler` コマンドレットを使用します。例えば、`Ctrl+o` を押下したときに補完メニューを表示するように設定するには以下を実行します。
 
 ```powershell
 Set-PSReadlineKeyHandler -Key "Ctrl+o" -Function "MenuComplete"
@@ -284,3 +289,4 @@ Install-Module -Scope CurrentUser PSFzf
 ```powershell
 Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
 ```
+
