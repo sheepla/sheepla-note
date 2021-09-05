@@ -57,7 +57,7 @@
 </header><div class="content post__content clearfix">
 <p>この記事では、PowerShellのプロファイルを編集してPowerShellのCLI操作を快適にする方法を紹介します。</p>
 <h2 id=プロファイルとは>プロファイルとは</h2>
-<p>PowerShellにおけるプロファイルとは、PowerShellを起動したときに自動で読み込まれるスクリプトです。</p>
+<p>PowerShellにおけるプロファイルとは、PowerShellを起動したときに自動で読み込まれるスクリプトのことです。</p>
 <blockquote>
 <p>PowerShell プロファイルを作成して、環境をカスタマイズし、開始するすべての PowerShell セッションにセッション固有の要素を追加できます。
 PowerShell プロファイルは、PowerShell の開始時に実行されるスクリプトです。 プロファイルをログオン スクリプトとして使用して、環境をカスタマイズできます。 コマンド、エイリアス、関数、変数、スナップイン、モジュール、PowerShell ドライブを追加できます。 また、プロファイルに他のセッション固有の要素を追加して、インポートまたは再作成することなく、すべてのセッションで使用することもできます。</p>
@@ -216,18 +216,32 @@ zi &lt;検索ワード&gt;            <span style=color:#75715e># fzfを使っ�
 <p>インストールが完了したらプロファイルに以下の行を追加してください。</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>starship init powershell | Invoke-Expression
 </code></pre></div><p><code>. $PROFILE</code> でプロファイルを再読込してプロンプトが変化すればOKです。</p>
-<h3 id=fzfとの統合psfzfモジュール>fzfとの統合(PSFzfモジュール)</h3>
+<h3 id=sudo相当のコマンドを導入する>sudo相当のコマンドを導入する</h3>
+<p>通常、Windows上で管理者権限でコマンドを実行する場合、管理者権限でPowerShellやコマンドプロンプトを新しく起動し、UAC(ユーザーアカウント制御)ポップアップをクリックする必要があります。しかし、毎回この作業を行うのは面倒です。</p>
+<p>回避策として、Linuxの <code>sudo</code> に相当するツールを導入すると便利です。</p>
+<ul>
+<li><a href=https://github.com/mattn/sudo>mattn/sudo - GitHub</a></li>
+<li><a href=https://github.com/gerardog/gsudo>gerardog/gsudo -GitHub</a> ※ <code>scoop install gsudo</code></li>
+<li><a href=https://github.com/lukesampson/psutils/blob/master/sudo.ps1>lukesampson/psutils/sudo.ps1 - GitHub</a> ※ <code>scoop install sudo</code></li>
+</ul>
+<p><strong>注意</strong>: インストールと実行は自己責任で行ってください。</p>
+<p>psutilsのsudo.ps1はPowerShellのコマンドレットをそのまま管理者権限で実行できます。今回はこれをインストールします。</p>
+<h4 id=インストール-1>インストール</h4>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>scoop install sudo
+</code></pre></div><h4 id=使い方-1>使い方</h4>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>sudo &lt;PowerShellのコマンドレットなど&gt;
+</code></pre></div><h3 id=fzfとの統合psfzfモジュール>fzfとの統合(PSFzfモジュール)</h3>
 <p>fzfのラッパーモジュールである <strong>PSFzf</strong> を導入することで、コマンドの履歴やパス絞り込み検索等の操作をfzfで簡単に行えるようになります。</p>
 <blockquote>
 <p><a href=https://www.powershellgallery.com/packages/PSFzf/2.2.8-alpha>PSFzf - PowerShell Gallery</a>
 <a href=https://github.com/kelleyma49/PSFzf>kellyma49/PSFfzf</a></p>
 </blockquote>
-<h4 id=使い方-1>使い方</h4>
+<h4 id=使い方-2>使い方</h4>
 <p>PSFzfにはディレクトリの移動・ファイルの編集・履歴の検索・プロセスのkill等をfzfで行える便利なコマンドレットが含まれています。詳しい使い方はリポジトリのREADMEを参照してください。</p>
 <blockquote>
 <p><a href=https://github.com/kelleyma49/PSFzf/blob/master/README.md>README.md on kelleyma49/PSfzf - GitHub</a></p>
 </blockquote>
-<h4 id=インストール-1>インストール</h4>
+<h4 id=インストール-2>インストール</h4>
 <p>fzfをインストールします。</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>scoop install fzf
 </code></pre></div><p>PSFzfをインストールします。<code>Get-Module -All PSFzf</code> を実行してPSFzfモジュールの情報が表示されればOKです。</p>
