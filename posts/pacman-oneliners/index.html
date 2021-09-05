@@ -164,9 +164,23 @@ pacman -Qq <span style=color:#f92672>[</span>キーワード...<span style=color
     xargs -I@ -- xdg-open @
 </code></pre></div><h4 id=解説-3>解説</h4>
 <ul>
-<li><code>awk...</code>: URLの値を取り出します。</li>
-<li><code>xdg-open</code>: xdg-openは引数に与えられたファイルパスやURLをデフォルトのアプリケーションで開くコマンドです。Windowsの <code>start</code> やmacOSの <code>open</code> に相当します。</li>
-<li>それ以外は上記と同様です。</li>
+<li>
+<p><code>awk...</code>: URLの値を取り出します。</p>
+</li>
+<li>
+<p><code>xdg-open</code>: xdg-openは引数に与えられたファイルパスやURLをデフォルトのアプリケーションで開くコマンドです。Windowsの <code>start</code> やmacOSの <code>open</code> に相当します。</p>
+<p><strong>メモ</strong></p>
+<p>xdg-openは <code>xdg-utils</code> パッケージに含まれています。詳しくは以下の記事が参考になります。</p>
+<blockquote>
+<p><a href=https://sekika.github.io/2015/10/27/open-command/>ターミナルからファイルを開く - sekikka.github.io</a></p>
+</blockquote>
+<blockquote>
+<p><a href=https://man.archlinux.org/man/xdg-open.1>xdg-open - Arch Linux Manual</a></p>
+</blockquote>
+</li>
+<li>
+<p>それ以外は上記と同様です。</p>
+</li>
 </ul>
 <h2 id=参考>参考</h2>
 <ul>
@@ -227,6 +241,7 @@ Linux, Vim, PowerShell等を気ままに触っているただのひつじ。
 <h4 class=widget__title>最近の投稿</h4>
 <div class=widget__content>
 <ul class=widget__list>
+<li class=widget__item><a class=widget__link href=/sheepla-note/posts/powershell-customization/>PowerShellのプロファイルをカスタマイズして使いやすくする</a></li>
 <li class=widget__item><a class=widget__link href=/sheepla-note/posts/archlinux-fonts/>Arch Linuxにフォントをインストールする</a></li>
 <li class=widget__item><a class=widget__link href=/sheepla-note/posts/zathura-introduction/>Linuxで高速なPDFビューワZathuraを使う</a></li>
 <li class=widget__item><a class=widget__link href=/sheepla-note/posts/archlinux-pkglist/>Arch Linuxのパッケージをパッケージリストで管理する</a></li>
@@ -252,6 +267,8 @@ Linux, Vim, PowerShell等を気ままに触っているただのひつじ。
 <li class=widget__item>
 <a class=widget__link href=/sheepla-note/categories/pacman/>pacman</a></li>
 <li class=widget__item>
+<a class=widget__link href=/sheepla-note/categories/powershell/>powershell</a></li>
+<li class=widget__item>
 <a class=widget__link href=/sheepla-note/categories/zathura/>zathura</a></li>
 </ul>
 </div>
@@ -268,6 +285,7 @@ Linux, Vim, PowerShell等を気ままに触っているただのひつじ。
 <a class="widget-taglist__link widget__link btn" href=/sheepla-note/tags/oneliner/ title=oneliner>oneliner (1)</a>
 <a class="widget-taglist__link widget__link btn" href=/sheepla-note/tags/pacman/ title=pacman>pacman (2)</a>
 <a class="widget-taglist__link widget__link btn" href=/sheepla-note/tags/pdf/ title=pdf>pdf (1)</a>
+<a class="widget-taglist__link widget__link btn" href=/sheepla-note/tags/powershell/ title=powershell>powershell (1)</a>
 <a class="widget-taglist__link widget__link btn" href=/sheepla-note/tags/zathura/ title=zathura>zathura (1)</a>
 </div>
 </div>
