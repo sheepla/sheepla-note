@@ -10,7 +10,7 @@ tags: ["powershell"]
 
 ## プロファイルとは
 
-PowerShellにおけるプロファイルとは、PowerShellを起動したときに自動で読み込まれるスクリプトです。
+PowerShellにおけるプロファイルとは、PowerShellを起動したときに自動で読み込まれるスクリプトのことです。
 
 > PowerShell プロファイルを作成して、環境をカスタマイズし、開始するすべての PowerShell セッションにセッション固有の要素を追加できます。
 > PowerShell プロファイルは、PowerShell の開始時に実行されるスクリプトです。 プロファイルをログオン スクリプトとして使用して、環境をカスタマイズできます。 コマンド、エイリアス、関数、変数、スナップイン、モジュール、PowerShell ドライブを追加できます。 また、プロファイルに他のセッション固有の要素を追加して、インポートまたは再作成することなく、すべてのセッションで使用することもできます。
@@ -255,6 +255,32 @@ starship init powershell | Invoke-Expression
 
 `. $PROFILE` でプロファイルを再読込してプロンプトが変化すればOKです。
 
+### sudo相当のコマンドを導入する
+
+通常、Windows上で管理者権限でコマンドを実行する場合、管理者権限でPowerShellやコマンドプロンプトを新しく起動し、UAC(ユーザーアカウント制御)ポップアップをクリックする必要があります。しかし、毎回この作業を行うのは面倒です。
+
+回避策として、Linuxの `sudo` に相当するツールを導入すると便利です。
+
+- [mattn/sudo - GitHub](https://github.com/mattn/sudo)
+- [gerardog/gsudo -GitHub](https://github.com/gerardog/gsudo) ※ `scoop install gsudo`
+- [lukesampson/psutils/sudo.ps1 - GitHub](https://github.com/lukesampson/psutils/blob/master/sudo.ps1) ※ `scoop install sudo`
+
+**注意**: インストールと実行は自己責任で行ってください。
+
+psutilsのsudo.ps1はPowerShellのコマンドレットをそのまま管理者権限で実行できます。今回はこれをインストールします。
+
+#### インストール
+
+```powershell
+scoop install sudo
+```
+
+#### 使い方
+
+```powershell
+sudo <PowerShellのコマンドレットなど>
+```
+
 ### fzfとの統合(PSFzfモジュール)
 
 fzfのラッパーモジュールである **PSFzf** を導入することで、コマンドの履歴やパス絞り込み検索等の操作をfzfで簡単に行えるようになります。
@@ -289,4 +315,26 @@ Install-Module -Scope CurrentUser PSFzf
 ```powershell
 Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
 ```
+
+<!-- 
+### シンタックスハイライト+lessページャでファイルを閲覧する(bat+less)
+
+batはシンタックスハイライト付きのcatの代替コマンドです。less-WindowsはGNU lessのWindows用バイナリです。
+
+> [sharkdp/bat - GitHub](https://github.com/sharkdp/bat)
+
+> [jftuga/less-Windows - GitHub](https://github.com/jftuga/less-Windows)
+
+### 使い方
+
+`bat <ファイル>` でファイルを閲覧できます。
+
+#### インストール
+
+scoopでインストール可能です。
+
+```powershell
+scoop install bat less
+```
+-->
 
