@@ -68,11 +68,18 @@ PowerShell プロファイルは、PowerShell の開始時に実行されるス�
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>New-Item -Type File -Path $PROFILE -Force <span style=color:#75715e># 新規作成</span>
 notepad $PROFILE                          <span style=color:#75715e># 編集</span>
 </code></pre></div><p>編集したプロファイルを再読込するには、<code>. $PROFILE</code> を実行してください。</p>
-<p><strong>メモ</strong></p>
+<h3 id=プロファイルを読み込まずにpowershellを起動>プロファイルを読み込まずにPowerShellを起動</h3>
 <p>プロファイルを読み込まずにPowerShellを起動するには <code>-NoProfile</code> スイッチを有効にします。</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>powershell -NoProfile <span style=color:#75715e># Windows PowerShell</span>
-pwsh -NoProfile       <span style=color:#75715e># PowerShell Core</span>
-</code></pre></div><h2 id=基本編psreadlineモジュールの設定>基本編(PSReadlineモジュールの設定)</h2>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>powershell -NoProfile <span style=color:#75715e># Windows PowerShellの場合</span>
+pwsh -NoProfile       <span style=color:#75715e># PowerShell Coreの場合</span>
+</code></pre></div><h3 id=実行ポリシーについて>実行ポリシーについて</h3>
+<p>Windowsのデフォルト設定では実行ポリシーが「<code>Restricted</code>」になっており、PowerShellスクリプト(<code>*.ps1</code>, <code>*.ps1xml</code>, <code>*.psm1</code>)を実行できません。実行ポリシーを変更する必要があります。以下を実行すると、ローカルコンピューター上にあるスクリプトおよびインターネット上の電子署名済みのスクリプトを実行できるようになります。<code>-Scope CurrentUser</code> を指定することで、影響範囲を現在のユーザーのみに限定することができます。</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+</code></pre></div><p>実行ポリシーについては以下のドキュメントを参照してください。</p>
+<blockquote>
+<p><a href="https://docs.microsoft.com/ja-jp/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.1#execution-policy-scope">About Execution Policies - MS Docs</a></p>
+</blockquote>
+<h2 id=基本編psreadlineモジュールの設定>基本編(PSReadlineモジュールの設定)</h2>
 <p>PowerShellには <code>PSReadline</code> というモジュールがデフォルトでインストールされています。
 <code>Set-PSReadlineOption</code>, <code>Set-PSReadlineKeyHandler</code> コマンドレットを使うことでキーバインドやシンタックスハイライトの色などをカスタマイズすることができます。詳しくは以下のドキュメントを参照してください。</p>
 <blockquote>
@@ -101,13 +108,18 @@ Shift+Enter      AddLine               Move the cursor to the next line without 
 Backspace        BackwardDeleteChar    Delete the character before the cursor
 ...以下略...
 
-</code></pre></div><p><strong>メモ</strong>: キーバインド一覧をHTMLに変換してチートシートを作っておくと便利です。</p>
+</code></pre></div><h4 id=キーバインド一覧のチートシートを作る>キーバインド一覧のチートシートを作る</h4>
+<p>キーバインド一覧を <code>ConvertTo-Html</code> コマンドレットを使ってHTMLに変換し、チートシートを作っておくと便利です。</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>Get-PSReadlineKeyHandler | ConvertTo-Html | Out-File -Encoding <span style=color:#66d9ef>Default</span> ~/Documents/ps-keybindings.html
-</code></pre></div><h4 id=行編集をemacsvi風に>行編集をEmacs/Vi風に</h4>
+</code></pre></div><h4 id=行編集のキーバインドをemacsvi風に>行編集のキーバインドをEmacs/Vi風に</h4>
 <p>行編集のキーバインドをEmacs/Vi風に変更するには以下を実行してください。</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>Set-PSReadlineOption -EditMode <span style=color:#e6db74>&#34;Emacs&#34;</span> <span style=color:#75715e># Emacs風キーバインド</span>
 Set-PSReadlineOption -EditMode <span style=color:#e6db74>&#34;Vi&#34;</span>    <span style=color:#75715e># Vi風キーバインド</span>
-</code></pre></div><h4 id=個別にキーを割り当てる>個別にキーを割り当てる</h4>
+</code></pre></div><p>Emacs風キーバインドにを有効にすると、カーソル移動やキルリングの他に <code>Ctrl+R</code>, <code>Ctrl+s</code> での履歴のインクリメンタルサーチが使えるようになります。bashとほぼ同様の感覚で使えるので快適です。</p>
+<pre><code># 「Ctrl+R cd」とタイプしたときの例
+PS /home/sheepla&gt; cd ~/Documents
+bck-i-search: cd_
+</code></pre><h4 id=個別にキーを割り当てる>個別にキーを割り当てる</h4>
 <p>キーを押下したときの動作を個別に設定するには <code>Set-PSReadlineKeyHandler</code> コマンドレットを使用します。例えば、<code>Ctrl+o</code> を押下したときに補完メニューを表示するように設定するには以下を実行します。</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>Set-PSReadlineKeyHandler -Key <span style=color:#e6db74>&#34;Ctrl+o&#34;</span> -Function <span style=color:#e6db74>&#34;MenuComplete&#34;</span>
 </code></pre></div><h3 id=ハイライトカラーの設定>ハイライトカラーの設定</h3>
@@ -164,13 +176,13 @@ Set-PSReadlineOption @PSReadlineOptions
 </ul>
 <p><strong>メモ</strong>: scoopとchocolateyの違いについては以下の記事が参考になります。</p>
 <blockquote>
-<p><a href=https://tech.guitarrapc.com/entry/2019/12/01/233522>Windows開発環境の構築をChocolateyからscoopに切り替える - tech.guitarrapc.cóm</a></p>
+<p><a href=https://tech.guitarrapc.com/entry/2019/12/01/233522>Windows開発環境の構築をChocolateyからscoopに切り替える - tech.guitarrapc.com</a></p>
 </blockquote>
+<h4 id=インストール>インストール</h4>
 <p>scoopをインストールするには以下を実行します。</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>iwr -useb get.scoop.sh
-</code></pre></div><p>実行ポリシーのエラーが表示されてインストールに失敗する場合は以下を実行してください。</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-</code></pre></div><h3 id=素早くcdするzoxide>素早くcdする(zoxide)</h3>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>iwr -useb get.scoop.sh | iex
+</code></pre></div><p><a href=https://raw.githubusercontent.com/lukesampson/scoop/master/bin/install.ps1>lukesampson/scoop/master/bin/install.ps1 - GitHub</a> をダウンロードして実行する方法と等価です。実行する前に目を通しておくと安心かもしれません。</p>
+<h3 id=素早くcdするzoxide>素早くcdする(zoxide)</h3>
 <p><strong>zoxide</strong> を使うと、カレントディレクトリディレクトリ素早く変更することができます。
 パスを記憶しておいたり毎回タイプしたりする必要がないので、ディレクトリの階層が深くなりがちなWindowsで使うと特に有効です。</p>
 <blockquote>
@@ -187,7 +199,7 @@ z &lt;一度移動したパスの一部&gt; <span style=color:#75715e># 移動�
 z -                        <span style=color:#75715e># 直前にいたディレクトリに戻る(cdと同じ)</span>
 z ..                       <span style=color:#75715e># 親ディレクトリに移動(cdと同じ)</span>
 zi &lt;検索ワード&gt;            <span style=color:#75715e># fzfを使って移動履歴を絞り込んで選択したディレクトリに移動</span>
-</code></pre></div><h4 id=インストール>インストール</h4>
+</code></pre></div><h4 id=インストール-1>インストール</h4>
 <p>zoxideとfzfをインストールします。</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>scoop install zoxide fzf
 </code></pre></div><p>プロファイルに以下を追記してください。</p>
@@ -214,19 +226,27 @@ zi &lt;検索ワード&gt;            <span style=color:#75715e># fzfを使っ�
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>scoop install starship
 </code></pre></div><h4 id=セットアップ>セットアップ</h4>
 <p>インストールが完了したらプロファイルに以下の行を追加してください。</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>starship init powershell | Invoke-Expression
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>Invoke-Expression (&amp;starship init powershell)
 </code></pre></div><p><code>. $PROFILE</code> でプロファイルを再読込してプロンプトが変化すればOKです。</p>
+<h4 id=カスタマイズ>カスタマイズ</h4>
+<p>starshipをカスタマイズするには <code>~/.config/starship.toml</code> を編集します。具体的なカスタマイズ方法については公式ドキュメントを参照してください。</p>
+<blockquote>
+<p><a href=https://starship.rs/config>Starship Configuration</a></p>
+</blockquote>
+<blockquote>
+<p><a href=https://starship.rs/ja-JP/config/>Starship Configuration 日本語版</a></p>
+</blockquote>
 <h3 id=sudo相当のコマンドを導入する>sudo相当のコマンドを導入する</h3>
 <p>通常、Windows上で管理者権限でコマンドを実行する場合、管理者権限でPowerShellやコマンドプロンプトを新しく起動し、UAC(ユーザーアカウント制御)ポップアップをクリックする必要があります。しかし、毎回この作業を行うのは面倒です。</p>
 <p>回避策として、Linuxの <code>sudo</code> に相当するツールを導入すると便利です。</p>
 <ul>
 <li><a href=https://github.com/mattn/sudo>mattn/sudo - GitHub</a></li>
-<li><a href=https://github.com/gerardog/gsudo>gerardog/gsudo -GitHub</a> ※ <code>scoop install gsudo</code></li>
+<li><a href=https://github.com/gerardog/gsudo>gerardog/gsudo - GitHub</a> ※ <code>scoop install gsudo</code></li>
 <li><a href=https://github.com/lukesampson/psutils/blob/master/sudo.ps1>lukesampson/psutils/sudo.ps1 - GitHub</a> ※ <code>scoop install sudo</code></li>
 </ul>
 <p><strong>注意</strong>: インストールと実行は自己責任で行ってください。</p>
 <p>psutilsのsudo.ps1はPowerShellのコマンドレットをそのまま管理者権限で実行できます。今回はこれをインストールします。</p>
-<h4 id=インストール-1>インストール</h4>
+<h4 id=インストール-2>インストール</h4>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>scoop install sudo
 </code></pre></div><h4 id=使い方-1>使い方</h4>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>sudo &lt;PowerShellのコマンドレットなど&gt;
@@ -241,7 +261,7 @@ zi &lt;検索ワード&gt;            <span style=color:#75715e># fzfを使っ�
 <blockquote>
 <p><a href=https://github.com/kelleyma49/PSFzf/blob/master/README.md>README.md on kelleyma49/PSfzf - GitHub</a></p>
 </blockquote>
-<h4 id=インストール-2>インストール</h4>
+<h4 id=インストール-3>インストール</h4>
 <p>fzfをインストールします。</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>scoop install fzf
 </code></pre></div><p>PSFzfをインストールします。<code>Get-Module -All PSFzf</code> を実行してPSFzfモジュールの情報が表示されればOKです。</p>
