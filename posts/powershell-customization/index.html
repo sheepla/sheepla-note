@@ -3,11 +3,11 @@
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta http-equiv=x-ua-compatible content="IE=edge">
-<title>PowerShellのプロファイルをカスタマイズして使いやすくする - sheepla-note</title>
+<title>PowerShellのプロファイルをカスタマイズしてCLIの操作を快適にする - sheepla-note</title>
 <script>(function(a,b){a[b]=a[b].replace("no-js","js")})(document.documentElement,"className")</script>
 <meta name=description content>
 <meta name=twitter:card content="summary">
-<meta name=twitter:title content="PowerShellのプロファイルをカスタマイズして使いやすくする">
+<meta name=twitter:title content="PowerShellのプロファイルをカスタマイズしてCLIの操作を快適にする">
 <meta name=twitter:description content="この記事では、PowerShellのプロファイルを編集してPowerShellのCLI操作を快適にする方法を紹介します。 プロファイルとは Po">
 <link rel=preconnect href=https://fonts.gstatic.com crossorigin>
 <link rel=dns-prefetch href=//fonts.googleapis.com>
@@ -48,7 +48,7 @@
 <main class=main role=main>
 <article class=post>
 <header class=post__header>
-<h1 class=post__title>PowerShellのプロファイルをカスタマイズして使いやすくする</h1>
+<h1 class=post__title>PowerShellのプロファイルをカスタマイズしてCLIの操作を快適にする</h1>
 <div class="post__meta meta">
 <div class="meta__item-datetime meta__item">
 <svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class=meta__text datetime=2021-09-05T00:00:00Z>September 05, 2021</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2 1 2h8v11H0V2z"/></svg><span class=meta__text><a class=meta__link href=/sheepla-note/categories/powershell/ rel=category>powershell</a>
@@ -92,6 +92,12 @@ pwsh -NoProfile       <span style=color:#75715e># PowerShell Coreの場合</span
 </blockquote>
 <p>この機能はデフォルトでは無効になっています。有効化するには以下を実行してください。</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>Set-PSReadLineOption -PredictionSource History
+</code></pre></div><h3 id=重複した履歴を保存しないようにする>重複した履歴を保存しないようにする</h3>
+<p>履歴の行が重複すると、検索して再実行する際に少し不便です。重複した履歴を保存しないようにするには以下を実行します。</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>Set-PSReadlineOption -HistoryNoDuplicates
+</code></pre></div><h3 id=ベル音の無効化>ベル音の無効化</h3>
+<p>PowerShellを操作しているとベル音が頻繁に鳴り煩わしいと感じるかもしれません。ベル音を無効にするには以下を実行します。</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>Set-PSReadlineOption -BellStyle = <span style=color:#e6db74>&#34;None&#34;</span>
 </code></pre></div><h3 id=キーバインドの設定>キーバインドの設定</h3>
 <h4 id=キーバインド一覧の取得>キーバインド一覧の取得</h4>
 <p>設定されているキーバインドの一覧は <code>Get-PSReadlineKeyHandler</code> コマンドレットで取得できます。</p>
@@ -122,7 +128,12 @@ bck-i-search: cd_
 </code></pre><h4 id=個別にキーを割り当てる>個別にキーを割り当てる</h4>
 <p>キーを押下したときの動作を個別に設定するには <code>Set-PSReadlineKeyHandler</code> コマンドレットを使用します。例えば、<code>Ctrl+o</code> を押下したときに補完メニューを表示するように設定するには以下を実行します。</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>Set-PSReadlineKeyHandler -Key <span style=color:#e6db74>&#34;Ctrl+o&#34;</span> -Function <span style=color:#e6db74>&#34;MenuComplete&#34;</span>
-</code></pre></div><h3 id=ハイライトカラーの設定>ハイライトカラーの設定</h3>
+</code></pre></div><h4 id=さらに高度なキーバインド設定>さらに高度なキーバインド設定</h4>
+<p><code>Set-PSReadlineKeyHandler</code> は <code>-ScriptBlock</code> パラメータを指定することでさらに高度なカスタマイズが可能です。例えば、カッコや引用符を自動で閉じるようにすることができます。こちらの記事が参考になります。</p>
+<blockquote>
+<p><a href=https://qiita.com/AWtnb/items/5551fcc762ed2ad92a81>【PowerShell】PsReadLine 設定のススメ - Qiita</a></p>
+</blockquote>
+<h3 id=ハイライトカラーの設定>ハイライトカラーの設定</h3>
 <p>PowerShellのコンソールではデフォルトでシンタックスハイライトが有効になっています。それぞれの色を変更するには、<code>Set-PSReadLineOption</code> の <code>-Colors</code> パラメータに値を設定します。</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>Set-PSReadLineOption -Colors @{
     Command            = <span style=color:#e6db74>&#34;Magenta&#34;</span>
@@ -147,9 +158,6 @@ bck-i-search: cd_
      <span style=color:#75715e># RGB値</span>
      <span style=color:#e6db74>&#34;Command&#34;</span> = <span style=color:#e6db74>&#34;#8181f7&#34;</span>
 }
-</code></pre></div><h3 id=ベル音の無効化>ベル音の無効化</h3>
-<p>PowerShellを操作しているとベル音が頻繁に鳴り煩わしいと感じるかもしれません。ベル音を無効にするには以下を実行します。</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>Set-PSReadlineOption -BellStyle = <span style=color:#e6db74>&#34;None&#34;</span>
 </code></pre></div><h3 id=各プロパティをまとめて設定>各プロパティをまとめて設定</h3>
 <p>以下のようにハッシュテーブルを作って各プロパティをまとめて設定することもできます。ファイルに記述する際に少し見通しが良くなると思います。</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell>$PSReadlineOptions = @{
@@ -314,7 +322,7 @@ Linux, Vim, PowerShell等を気ままに触っているただのひつじ。
 <h4 class=widget__title>最近の投稿</h4>
 <div class=widget__content>
 <ul class=widget__list>
-<li class=widget__item><a class=widget__link href=/sheepla-note/posts/powershell-customization/>PowerShellのプロファイルをカスタマイズして使いやすくする</a></li>
+<li class=widget__item><a class=widget__link href=/sheepla-note/posts/powershell-customization/>PowerShellのプロファイルをカスタマイズしてCLIの操作を快適にする</a></li>
 <li class=widget__item><a class=widget__link href=/sheepla-note/posts/archlinux-fonts/>Arch Linuxにフォントをインストールする</a></li>
 <li class=widget__item><a class=widget__link href=/sheepla-note/posts/zathura-introduction/>Linuxで高速なPDFビューワZathuraを使う</a></li>
 <li class=widget__item><a class=widget__link href=/sheepla-note/posts/archlinux-pkglist/>Arch Linuxのパッケージをパッケージリストで管理する</a></li>
