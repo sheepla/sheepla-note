@@ -28,14 +28,26 @@ notepad $PROFILE                          # 編集
 
 編集したプロファイルを再読込するには、`. $PROFILE` を実行してください。
 
-**メモ**
+### プロファイルを読み込まずにPowerShellを起動
 
 プロファイルを読み込まずにPowerShellを起動するには `-NoProfile` スイッチを有効にします。
 
 ```powershell
-powershell -NoProfile # Windows PowerShell
-pwsh -NoProfile       # PowerShell Core
+powershell -NoProfile # Windows PowerShellの場合
+pwsh -NoProfile       # PowerShell Coreの場合
 ```
+
+### 実行ポリシーについて
+
+Windowsのデフォルト設定では実行ポリシーが「`Restricted`」になっており、PowerShellスクリプト(`*.ps1`, `*.ps1xml`, `*.psm1`)を実行できません。実行ポリシーを変更する必要があります。以下を実行すると、ローカルコンピューター上にあるスクリプトおよびインターネット上の電子署名済みのスクリプトを実行できるようになります。`-Scope CurrentUser` を指定することで、影響範囲を現在のユーザーのみに限定することができます。
+
+```powershell
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+実行ポリシーについては以下のドキュメントを参照してください。
+
+> [About Execution Policies - MS Docs](https://docs.microsoft.com/ja-jp/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.1#execution-policy-scope)
 
 ## 基本編(PSReadlineモジュールの設定)
 
@@ -78,13 +90,15 @@ Backspace        BackwardDeleteChar    Delete the character before the cursor
 
 ```
 
-**メモ**: キーバインド一覧をHTMLに変換してチートシートを作っておくと便利です。
+#### キーバインド一覧のチートシートを作る
+
+キーバインド一覧を `ConvertTo-Html` コマンドレットを使ってHTMLに変換し、チートシートを作っておくと便利です。
 
 ```powershell
 Get-PSReadlineKeyHandler | ConvertTo-Html | Out-File -Encoding Default ~/Documents/ps-keybindings.html
 ```
 
-#### 行編集をEmacs/Vi風に
+#### 行編集のキーバインドをEmacs/Vi風に
 
 行編集のキーバインドをEmacs/Vi風に変更するには以下を実行してください。
 
@@ -92,6 +106,15 @@ Get-PSReadlineKeyHandler | ConvertTo-Html | Out-File -Encoding Default ~/Documen
 Set-PSReadlineOption -EditMode "Emacs" # Emacs風キーバインド
 Set-PSReadlineOption -EditMode "Vi"    # Vi風キーバインド
 ```
+
+Emacs風キーバインドにを有効にすると、カーソル移動やキルリングの他に `Ctrl+R`, `Ctrl+s` での履歴のインクリメンタルサーチが使えるようになります。bashとほぼ同様の感覚で使えるので快適です。
+
+```
+# 「Ctrl+R cd」とタイプしたときの例
+PS /home/sheepla> cd ~/Documents
+bck-i-search: cd_
+```
+
 #### 個別にキーを割り当てる
 
 キーを押下したときの動作を個別に設定するには `Set-PSReadlineKeyHandler` コマンドレットを使用します。例えば、`Ctrl+o` を押下したときに補完メニューを表示するように設定するには以下を実行します。
@@ -173,19 +196,18 @@ Windowsにツールを導入する場合、**scoop** や **Chocolatey** を使�
 
 **メモ**: scoopとchocolateyの違いについては以下の記事が参考になります。
 
-> [Windows開発環境の構築をChocolateyからscoopに切り替える - tech.guitarrapc.cóm](https://tech.guitarrapc.com/entry/2019/12/01/233522)
+> [Windows開発環境の構築をChocolateyからscoopに切り替える - tech.guitarrapc.com](https://tech.guitarrapc.com/entry/2019/12/01/233522)
+
+#### インストール
 
 scoopをインストールするには以下を実行します。
 
 ```powershell
-iwr -useb get.scoop.sh
+iwr -useb get.scoop.sh | iex
 ```
 
-実行ポリシーのエラーが表示されてインストールに失敗する場合は以下を実行してください。
+[lukesampson/scoop/master/bin/install.ps1 - GitHub](https://raw.githubusercontent.com/lukesampson/scoop/master/bin/install.ps1) をダウンロードして実行する方法と等価です。実行する前に目を通しておくと安心かもしれません。
 
-```powershell
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-```
 
 ### 素早くcdする(zoxide)
 
@@ -250,10 +272,20 @@ scoop install starship
 インストールが完了したらプロファイルに以下の行を追加してください。
 
 ```powershell
-starship init powershell | Invoke-Expression
+Invoke-Expression (&starship init powershell)
 ```
 
 `. $PROFILE` でプロファイルを再読込してプロンプトが変化すればOKです。
+
+#### カスタマイズ
+
+starshipをカスタマイズするには `~/.config/starship.toml` を編集します。具体的なカスタマイズ方法については公式ドキュメントを参照してください。
+
+> [Starship Configuration](https://starship.rs/config)
+
+> [Starship Configuration 日本語版](https://starship.rs/ja-JP/config/)
+
+
 
 ### sudo相当のコマンドを導入する
 
@@ -262,7 +294,7 @@ starship init powershell | Invoke-Expression
 回避策として、Linuxの `sudo` に相当するツールを導入すると便利です。
 
 - [mattn/sudo - GitHub](https://github.com/mattn/sudo)
-- [gerardog/gsudo -GitHub](https://github.com/gerardog/gsudo) ※ `scoop install gsudo`
+- [gerardog/gsudo - GitHub](https://github.com/gerardog/gsudo) ※ `scoop install gsudo`
 - [lukesampson/psutils/sudo.ps1 - GitHub](https://github.com/lukesampson/psutils/blob/master/sudo.ps1) ※ `scoop install sudo`
 
 **注意**: インストールと実行は自己責任で行ってください。
