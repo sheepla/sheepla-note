@@ -1,5 +1,5 @@
 ---
-title: "PowerShellのプロファイルをカスタマイズして使いやすくする"
+title: "PowerShellのプロファイルをカスタマイズしてCLIの操作を快適にする"
 date: 2021-09-05
 categories: ["powershell"]
 tags: ["powershell"]
@@ -68,6 +68,23 @@ PSReadlineモジュールには、予測インテリセンス機能が装備さ�
 Set-PSReadLineOption -PredictionSource History
 ```
 
+### 重複した履歴を保存しないようにする
+
+履歴の行が重複すると、検索して再実行する際に少し不便です。重複した履歴を保存しないようにするには以下を実行します。
+
+```powershell
+Set-PSReadlineOption -HistoryNoDuplicates
+```
+
+### ベル音の無効化
+
+PowerShellを操作しているとベル音が頻繁に鳴り煩わしいと感じるかもしれません。ベル音を無効にするには以下を実行します。
+
+```powershell
+Set-PSReadlineOption -BellStyle = "None"
+```
+
+
 ### キーバインドの設定
 
 #### キーバインド一覧の取得
@@ -115,6 +132,7 @@ PS /home/sheepla> cd ~/Documents
 bck-i-search: cd_
 ```
 
+
 #### 個別にキーを割り当てる
 
 キーを押下したときの動作を個別に設定するには `Set-PSReadlineKeyHandler` コマンドレットを使用します。例えば、`Ctrl+o` を押下したときに補完メニューを表示するように設定するには以下を実行します。
@@ -122,6 +140,12 @@ bck-i-search: cd_
 ```powershell
 Set-PSReadlineKeyHandler -Key "Ctrl+o" -Function "MenuComplete"
 ```
+
+#### さらに高度なキーバインド設定
+
+`Set-PSReadlineKeyHandler` は `-ScriptBlock` パラメータを指定することでさらに高度なカスタマイズが可能です。例えば、カッコや引用符を自動で閉じるようにすることができます。こちらの記事が参考になります。
+
+> [【PowerShell】PsReadLine 設定のススメ - Qiita](https://qiita.com/AWtnb/items/5551fcc762ed2ad92a81)
 
 ### ハイライトカラーの設定
 
@@ -155,14 +179,6 @@ Set-PSReadLineOption -Colors @{
      # RGB値
      "Command" = "#8181f7"
 }
-```
-
-### ベル音の無効化
-
-PowerShellを操作しているとベル音が頻繁に鳴り煩わしいと感じるかもしれません。ベル音を無効にするには以下を実行します。
-
-```powershell
-Set-PSReadlineOption -BellStyle = "None"
 ```
 
 ### 各プロパティをまとめて設定
