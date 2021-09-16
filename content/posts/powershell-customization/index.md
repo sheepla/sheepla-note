@@ -81,7 +81,7 @@ Set-PSReadlineOption -HistoryNoDuplicates
 PowerShellを操作しているとベル音が頻繁に鳴り煩わしいと感じるかもしれません。ベル音を無効にするには以下を実行します。
 
 ```powershell
-Set-PSReadlineOption -BellStyle = "None"
+Set-PSReadlineOption -BellStyle None
 ```
 
 
