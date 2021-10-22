@@ -1,6 +1,6 @@
 # 🐑 sheepla-note
 
-sheeplaの個人ブログ
+sheeplaの個人ブログ。誤字脱字・質問・指摘事項等がありましたらこのリポジトリのIssueまでお願いします。
 
 ## Thanks
 
