@@ -25,14 +25,14 @@ Adobeが開発・配布している高品質なフォント。ウエイト数が
 
 IBMによって配布されているPlexシリーズの日本語版。大きめな字面・点画の結合部に施された切れ込みなど、画面表示に最適化されている。
 
-- [IBM/plex](https://github.com/IBM/plex)
+- [IBM/plex - GitHub](https://github.com/IBM/plex)
 - [ダウンロードページ](https://github.com/IBM/plex/releases)
 
 ### M+ Fonts
 
 多くのバリエーションを持つ日本語フォント。字面が大きく柔らかい印象で画面表示に適している。
 
-- [rayshan/mplus-fonts](https://github.com/rayshan/mplus-fonts)
+- [rayshan/mplus-fonts - GitHub](https://github.com/rayshan/mplus-fonts)
 
 ## ゴシック体 (Sans Serif)
 
@@ -45,10 +45,12 @@ IBMによって配布されているPlexシリーズの日本語版。大きめ�
 - [源雲明朝](https://github.com/ButTaiwan/genwan-font) - 源流明朝をベースに、[A1明朝](https://www.morisawa.co.jp/fonts/specimen/1075)のようなにじみ処理を施した明朝体。
 - [しっぽり明朝](https://github.com/fontdasu/ShipporiMincho) - 独自の仮名文字と源ノ明朝・(または源流明朝)とを合成したオールドスタイル明朝体。
 
-## 等幅(プログラミング用)
+## 等幅 (プログラミング用)
 
 - [Cica](https://github.com/miiton/Cica) - HackとRounded Mgen+ (源ノ角ゴシックとM+の合成) との合成フォント。Nerd Fonts・絵文字をサポートしている。
 - [HackGen](https://github.com/yuru7/HackGen) - Hackと源柔ゴシックとの合成フォント。全角スペースの可視化・Nerd Fontsをサポートしている。
 - [Firge](https://github.com/yuru7/Firge) - Fira Monoと源真ゴシック(源ノ角ゴシックをTTF化した派生フォント)との合成フォント。
 - [PlemolJP](https://github.com/yuru7/Firge) - IBM Plex MonoとIBM Plex Sans JPとの合成フォント。
 - [Sarasa Gothic (更紗ゴシック)](https://github.com/be5invis/Sarasa-Gothic) - [Iosevka](https://github.com/be5invis/iosevka)と源ノ角ゴシックとの合成フォント。Iosevkaは横幅がコンパクトであるため、ターミナルでの表示に適している印象。
+
+
