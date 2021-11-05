@@ -1,5 +1,5 @@
 ---
-title: "Linuxで高速なPDFビューワZathuraを使う"
+title: "Linuxでless感覚で使える高速なPDFビューワZathuraを使う"
 date: 2021-08-25
 categories: ["zathura"]
 tags: ["zathura", "pdf", "linux"]
@@ -25,8 +25,11 @@ Zathuraはキーボードで軽快に操作できるドキュメントビュー�
 ## こんな人におすすめ
 
 - とにかく軽いビューワを求めている人
-- 重い・UIが煩雑・画面を占領する一般的なPDFビューワに疲れている人
-- タイル型ウインドウマネージャを使っているのでキーボードから手を離さずにドキュメントを読みたい人
+- 一般的なPDFビューワに疲れている人
+    - 重い
+    - UIが煩雑
+    - サイドバー・メニューバー等のGUI要素が画面を占領する
+- タイル型ウインドウマネージャを使っており、キーボードから手を離さずにドキュメントを読みたい人
 
 ## インストール
 
@@ -37,6 +40,7 @@ Arch Linuxの場合は `zathura` パッケージとファイル形式に対応�
 - PDF: `zathura-pdf-poppler` または `zathura-pdf-mupdf`
 - DJVU: `zathura-djvu`
 - PS(PostScript): `zathura-ps`
+- CB: `zathura-cb`
 
 ```bash
 sudo pacman -S zathura その他...
@@ -45,6 +49,13 @@ sudo pacman -S zathura その他...
 ### Ubuntuの場合
 
 Ubuntuの場合もaptでインストール可能です。
+
+- `zathura`
+- `zathura-pdf-poppler`
+- `zathura-djvu`
+- `zathura-ps`
+- `zathura-dev`
+- `zathura-cb`
 
 ```bash
 sudo apt install zathura その他...
@@ -91,7 +102,7 @@ Application Options:
 
 | キー | 機能 |
 |------|------|
-| `j`, `k` | 上下スクロール |
+| `h`, `j`, `k`, `l` | 上下左右にスクロール |
 | `<C-f>`, `<C-b>` | 1ページスクロール |
 | `q` | Zathuraを閉じる |
 | `a` | 1ページが収まるように調整 |
@@ -119,6 +130,13 @@ Application Options:
 | `:info` | ファイルのメタデータを表示 |
 | `:prinf` | ファイルを印刷 |
 
+## manをPDFとして読む
+
+Zathuraは標準入力を読み込むことができます。以下を実行するとbashのmanpageをPDFとして読むことができます。
+
+```bash
+man -Tpdf bash | zathura -
+```
 
 ## カスタマイズ
 
@@ -203,7 +221,8 @@ set font monospace 12
 
 ## リンク
 
+- [Zathuraの公式ページ](https://pwmt.org/projects/zathura/)
 - [Zathura - Arch Wiki](https://wiki.archlinux.jp/index.php/Zathura)
 - [Zathura (document viewer) - Wikipedia](https://en.wikipedia.org/wiki/Zathura_(document_viewer))
 
-- [zathura: Vim-based Minimalist PDF/djvu/ps/epub/comic book reader - YouTube](https://youtu.be/V_Iz4zdyRM4)
+- [zathura: Vim-based Minimalist PDF/djvu/ps/epub/comic book reader - YouTube](https://youtu.be/V_Iz4zdyRM4) - 操作デモ動画
