@@ -99,7 +99,7 @@ F-Droidはサイトから直接各アプリのAPKをダウンロードするこ�
     - 通知の同期
     - マルティメディアのリモートコントロール
     - WiFiの接続
-- [Task.org](https://f-droid.org/packages/org.tasks/) - 高機能なTOSOリスト/リマインダ。
+- [Task.org](https://f-droid.org/packages/org.tasks/) - 高機能なTODOリスト/リマインダ。
 
 ### システム
 
