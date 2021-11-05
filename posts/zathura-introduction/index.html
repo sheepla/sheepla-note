@@ -3,11 +3,11 @@
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta http-equiv=x-ua-compatible content="IE=edge">
-<title>Linuxで高速なPDFビューワZathuraを使う - sheepla-note</title>
+<title>Linuxでless感覚で使える高速なPDFビューワZathuraを使う - sheepla-note</title>
 <script>(function(a,b){a[b]=a[b].replace("no-js","js")})(document.documentElement,"className")</script>
 <meta name=description content>
 <meta name=twitter:card content="summary">
-<meta name=twitter:title content="Linuxで高速なPDFビューワZathuraを使う">
+<meta name=twitter:title content="Linuxでless感覚で使える高速なPDFビューワZathuraを使う">
 <meta name=twitter:description content="Zathuraはキーボードで軽快に操作できるドキュメントビューワです。この記事では、Zathuraのインストール方法・基本的な使い方やカスタ">
 <link rel=preconnect href=https://fonts.gstatic.com crossorigin>
 <link rel=dns-prefetch href=//fonts.googleapis.com>
@@ -48,7 +48,7 @@
 <main class=main role=main>
 <article class=post>
 <header class=post__header>
-<h1 class=post__title>Linuxで高速なPDFビューワZathuraを使う</h1>
+<h1 class=post__title>Linuxでless感覚で使える高速なPDFビューワZathuraを使う</h1>
 <div class="post__meta meta">
 <div class="meta__item-datetime meta__item">
 <svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class=meta__text datetime=2021-08-25T00:00:00Z>August 25, 2021</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2 1 2h8v11H0V2z"/></svg><span class=meta__text><a class=meta__link href=/sheepla-note/categories/zathura/ rel=category>zathura</a>
@@ -76,8 +76,14 @@
 <h2 id=こんな人におすすめ>こんな人におすすめ</h2>
 <ul>
 <li>とにかく軽いビューワを求めている人</li>
-<li>重い・UIが煩雑・画面を占領する一般的なPDFビューワに疲れている人</li>
-<li>タイル型ウインドウマネージャを使っているのでキーボードから手を離さずにドキュメントを読みたい人</li>
+<li>一般的なPDFビューワに疲れている人
+<ul>
+<li>重い</li>
+<li>UIが煩雑</li>
+<li>サイドバー・メニューバー等のGUI要素が画面を占領する</li>
+</ul>
+</li>
+<li>タイル型ウインドウマネージャを使っており、キーボードから手を離さずにドキュメントを読みたい人</li>
 </ul>
 <h2 id=インストール>インストール</h2>
 <h3 id=arch-linuxの場合>Arch Linuxの場合</h3>
@@ -86,10 +92,19 @@
 <li>PDF: <code>zathura-pdf-poppler</code> または <code>zathura-pdf-mupdf</code></li>
 <li>DJVU: <code>zathura-djvu</code></li>
 <li>PS(PostScript): <code>zathura-ps</code></li>
+<li>CB: <code>zathura-cb</code></li>
 </ul>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>sudo pacman -S zathura その他...
 </code></pre></div><h3 id=ubuntuの場合>Ubuntuの場合</h3>
 <p>Ubuntuの場合もaptでインストール可能です。</p>
+<ul>
+<li><code>zathura</code></li>
+<li><code>zathura-pdf-poppler</code></li>
+<li><code>zathura-djvu</code></li>
+<li><code>zathura-ps</code></li>
+<li><code>zathura-dev</code></li>
+<li><code>zathura-cb</code></li>
+</ul>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>sudo apt install zathura その他...
 </code></pre></div><ul>
 <li><a href="https://packages.ubuntu.com/search?keywords=zathura&searchon=all&suite=all&section=all">zathura - Ubuntu packages</a></li>
@@ -132,8 +147,8 @@ Application Options:
 </thead>
 <tbody>
 <tr>
-<td><code>j</code>, <code>k</code></td>
-<td>上下スクロール</td>
+<td><code>h</code>, <code>j</code>, <code>k</code>, <code>l</code></td>
+<td>上下左右にスクロール</td>
 </tr>
 <tr>
 <td><code>&lt;C-f></code>, <code>&lt;C-b></code></td>
@@ -232,7 +247,10 @@ Application Options:
 </tr>
 </tbody>
 </table>
-<h2 id=カスタマイズ>カスタマイズ</h2>
+<h2 id=manをpdfとして読む>manをPDFとして読む</h2>
+<p>Zathuraは標準入力を読み込むことができます。以下を実行するとbashのmanpageをPDFとして読むことができます。</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>man -Tpdf bash | zathura -
+</code></pre></div><h2 id=カスタマイズ>カスタマイズ</h2>
 <p>Zathuraは設定ファイルを書くことで簡単にカスタマイズすることができます。</p>
 <ul>
 <li>スクロール・ズームの段階</li>
@@ -308,13 +326,16 @@ set font monospace 12
 <h2 id=リンク>リンク</h2>
 <ul>
 <li>
+<p><a href=https://pwmt.org/projects/zathura/>Zathuraの公式ページ</a></p>
+</li>
+<li>
 <p><a href=https://wiki.archlinux.jp/index.php/Zathura>Zathura - Arch Wiki</a></p>
 </li>
 <li>
 <p><a href=https://en.wikipedia.org/wiki/Zathura_(document_viewer)>Zathura (document viewer) - Wikipedia</a></p>
 </li>
 <li>
-<p><a href=https://youtu.be/V_Iz4zdyRM4>zathura: Vim-based Minimalist PDF/djvu/ps/epub/comic book reader - YouTube</a></p>
+<p><a href=https://youtu.be/V_Iz4zdyRM4>zathura: Vim-based Minimalist PDF/djvu/ps/epub/comic book reader - YouTube</a> - 操作デモ動画</p>
 </li>
 </ul>
 </div>
@@ -371,7 +392,7 @@ Linux, Vim, PowerShell等を気ままに触っているただのひつじ。
 <li class=widget__item><a class=widget__link href=/sheepla-note/posts/awesome-japanese-fonts/>高品質な日本語フリーフォントまとめ</a></li>
 <li class=widget__item><a class=widget__link href=/sheepla-note/posts/powershell-customization/>PowerShellのプロファイルをカスタマイズしてCLIの操作を快適にする</a></li>
 <li class=widget__item><a class=widget__link href=/sheepla-note/posts/archlinux-fonts/>Arch Linuxにフォントをインストールする</a></li>
-<li class=widget__item><a class=widget__link href=/sheepla-note/posts/zathura-introduction/>Linuxで高速なPDFビューワZathuraを使う</a></li>
+<li class=widget__item><a class=widget__link href=/sheepla-note/posts/zathura-introduction/>Linuxでless感覚で使える高速なPDFビューワZathuraを使う</a></li>
 <li class=widget__item><a class=widget__link href=/sheepla-note/posts/archlinux-pkglist/>Arch Linuxのパッケージをパッケージリストで管理する</a></li>
 <li class=widget__item><a class=widget__link href=/sheepla-note/posts/pacman-oneliners/>pacman(+fzf)ワンライナーで快適パッケージ管理</a></li>
 <li class=widget__item><a class=widget__link href=/sheepla-note/posts/introduction/>自己紹介</a></li>
