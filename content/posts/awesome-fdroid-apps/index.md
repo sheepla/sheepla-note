@@ -86,9 +86,9 @@ F-Droidはサイトから直接各アプリのAPKをダウンロードするこ�
 
 ### ツール
 
-- [DeepL](https://f-droid.org/packages/com.rascarlo.arch.packages/) - 非公式の[DeepL](https://www.deepl.com/ja/translator)翻訳クライアント。WebViewを利用して翻訳ページをシンプルに表示している。
-- [Material Files](https://f-droid.org/packages/com.rascarlo.arch.packages/) - マテリアルデザインを採用したシンプルで使いやすいファイルマネージャ。
-- [PDF Viewer Plus](https://f-droid.org/packages/com.rascarlo.arch.packages/) - シンプルなPDFビューワ。
+- [DeepL](https://f-droid.org/packages/com.example.deeplviewer/) - 非公式の[DeepL](https://www.deepl.com/ja/translator)翻訳クライアント。WebViewを利用して翻訳ページをシンプルに表示している。
+- [Material Files](https://f-droid.org/packages/me.zhanghai.android.files) - マテリアルデザインを採用したシンプルで使いやすいファイルマネージャ。
+- [PDF Viewer Plus](https://f-droid.org/packages/com.gsnathan.pdfviewer/) - シンプルなPDFビューワ。
 - [Photok](https://f-droid.org/packages/dev.leonlatsch.photok/) - 画像ファイルや動画ファイルを[AES-256](https://ja.wikipedia.org/wiki/AES256)アルゴリズムで暗号化して保護できるアプリ。
 - [Keyboard Switcher](https://f-droid.org/packages/com.kunzisoft.keyboard.switcher/) - キーボードアプリを簡単に切り替えできるツール。通知センターにピン止めしたりフローティングボタンを表示させることができる。
 - [Hacker's Keyboard](https://f-droid.org/packages/org.pocketworkstation.pckeyboard/) - 記号類が打ちやすいキーボード。[Termux](https://f-droid.org/packages/com.termux/)にコマンドを打ち込むときに便利。
