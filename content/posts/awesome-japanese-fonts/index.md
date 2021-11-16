@@ -50,7 +50,7 @@ IBMによって配布されているPlexシリーズの日本語版。大きめ�
 - [Cica](https://github.com/miiton/Cica) - HackとRounded Mgen+ (源ノ角ゴシックとM+の合成) との合成フォント。Nerd Fonts・絵文字をサポートしている。
 - [HackGen](https://github.com/yuru7/HackGen) - Hackと源柔ゴシックとの合成フォント。全角スペースの可視化・Nerd Fontsをサポートしている。
 - [Firge](https://github.com/yuru7/Firge) - Fira Monoと源真ゴシック(源ノ角ゴシックをTTF化した派生フォント)との合成フォント。
-- [PlemolJP](https://github.com/yuru7/Firge) - IBM Plex MonoとIBM Plex Sans JPとの合成フォント。
+- [PlemolJP](https://github.com/yuru7/PlemolJP) - IBM Plex MonoとIBM Plex Sans JPとの合成フォント。
 - [Sarasa Gothic (更紗ゴシック)](https://github.com/be5invis/Sarasa-Gothic) - [Iosevka](https://github.com/be5invis/iosevka)と源ノ角ゴシックとの合成フォント。Iosevkaは横幅がコンパクトであるため、ターミナルでの表示に適している印象。
 
 
